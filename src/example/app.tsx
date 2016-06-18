@@ -1,69 +1,73 @@
 import * as React from 'react';
 import * as _ from "lodash";
-import FilterQueryParser from "./FilterQueryParser";
-import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
-import FilterInput from "./FilterInput";
+
 import {Table, Column, Cell} from 'fixed-data-table';
 import "fixed-data-table/dist/fixed-data-table.min.css";
 import data from "./data";
-import SimpleResultProcessing from "./SimpleResultProcessing";
 
-import GridDataAutoCompleteHandler from "./GridDataAutoCompleteHandler";
-import Expression from "./Expression";
-
+import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing,Expression} from "../ReactFilterBox";
 
 export default class App extends React.Component<any,any> {
-
-    parser:FilterQueryParser;
-    parsedResult: Expression[];
-    constructor(props:any) {
+    
+    options:AutoCompleteOption[];
+    constructor(props:any){
         super(props);
         this.state = {
-            query: `Status == Divorced AND (Description contains "t")`,
+            query: `Status == Divorced AND (Description contains "t") `,
             data: data
         }
 
-        var parser = new FilterQueryParser();
-        parser.setAutoCompleteHandler(new GridDataAutoCompleteHandler(data));
-        this.parser = parser;
+         this.options = [
+            {
+                columnText: "Name",
+                columField: "Name",
+                type:"text"
+            },
+            {
+                columnText: "Description",
+                columField: "Description",
+                type:"text"
+            },
+            {
+                columnText: "Status",
+                columField: "Status",
+                type:"selection"
+            },
+            {
+                columnText: "Email",
+                columField: "Email",
+                type:"text"
+            }
+        ];
     }
 
-    onChange(text:string) {
-        this.setState({ query: text });
-        this.parsedResult = this.parser.parse(text);
+    onParseOk(expressions: Expression[]){
 
-    }
-
-    needAutoCompleteValues(codeMirror:any, text:string) {
-        return this.parser.getSugessions(text);
-    }
-    
-    onSubmit(){
-        this.parsedResult = this.parser.parse(this.state.query);
-        if(!this.parsedResult){
-            console.log("no result");
-            return;
-        }
-        
-        console.log(this.parsedResult);
-        
-        var processing = new SimpleResultProcessing();
-        var newData = processing.process(data, this.parsedResult);
+        var newData = new SimpleResultProcessing().process(data,expressions);
         this.setState({data:newData});
+        console.log(newData);
     }
 
-    render() {
-        // var result = parser.parse(`nha == nhat AND (nhat == nha or "nhat " contains t) AND  `);
-        var rows = this.state.data;
-        return (
-            <div>
-                
-                <FilterInput value={this.state.query}
-                    onSubmit={this.onSubmit.bind(this)}
-                    onChange={this.onChange.bind(this) }
-                    needAutoCompleteValues={this.needAutoCompleteValues.bind(this) }/>
+    onParseError(error:any){
+        console.log(error);
+    }
 
-                <Table
+    onChange(query:string){
+        this.setState({query:query})
+    }
+
+    render(){
+        var rows = this.state.data;
+         return <div> 
+         <ReactFilterBox 
+                    query={this.state.query}
+                    onChange={this.onChange.bind(this)}
+                    data={data}
+                    options={this.options}
+                    onParseOk={this.onParseOk.bind(this)}
+                    onParseError={this.onParseError.bind(this)}
+                     />
+                     <Table
                     rowHeight={50}
                     rowsCount={rows.length}
                     width={800}
@@ -72,8 +76,8 @@ export default class App extends React.Component<any,any> {
                     <Column
                         header={<Cell>Name</Cell>}
 
-                        cell={({ rowIndex, props}) => (
-                            <Cell {...props}>
+                        cell={({ rowIndex}) => (
+                            <Cell>
                                 {rows[rowIndex].Name}
                             </Cell>
                             ) }
@@ -106,12 +110,7 @@ export default class App extends React.Component<any,any> {
                             ) }
                         width={200}
                     />
-                </Table>,
-            </div>
-
-
-        );
+                </Table>
+                    </div>
     }
 }
-
-

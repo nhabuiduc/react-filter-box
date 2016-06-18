@@ -8,7 +8,7 @@ export default class ParseTrace {
 
     push(item: TraceItem) {
         this.arr.push(item);
-        console.log(item);;
+        // console.log(item);;
     }
 
     clear() {
@@ -16,7 +16,7 @@ export default class ParseTrace {
     }
 
     getLastOperator() {
-        console.log("last");
+        // console.log("last");
         return _.findLast(this.arr, f => f.type == "operator").value;
     }
 

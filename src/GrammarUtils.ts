@@ -5,12 +5,20 @@ class GrammarUtils {
         return c == " " || c == "\r" || c == "\n" || c == "\t" || c == "(" || c == ")";
     }
 
+    isWhiteSpace(c:string) {
+        return c == " " || c == "\r" || c == "\n" || c == "\t";
+    }
+
     findLastSeparatorIndex(text: string) {
         return _.findLastIndex(text, f => this.isSeparator(f));
     }
 
     needSpaceAfter(char: string) {
-        return !(char == "(" || char == ")");
+        return !(char == "(");
+    }
+
+    isLastCharacterWhiteSpace(text:string){
+        return !!text && this.isWhiteSpace(text[text.length - 1]); 
     }
 
     stripEndWithNonSeparatorCharacters(text: string) {

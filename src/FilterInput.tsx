@@ -10,7 +10,7 @@ import * as CodeMirror from "codemirror";
 import "./FilterMode"
 
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/monokai.css';
+// import 'codemirror/theme/monokai.css';
 import "codemirror/addon/hint/show-hint.css";
 import "./FilterInput.less";
 import grammarUtils from "./GrammarUtils";
@@ -44,7 +44,6 @@ export default class FilterInput extends React.Component<any,any> {
             line: currentCursor.line,
             ch: currentCursor.ch - (text.length - index) + 1
         }
-
     }
 
 
@@ -60,9 +59,9 @@ export default class FilterInput extends React.Component<any,any> {
         this.autoCompletePopup.show();
     }
 
-    onSubmit() {
+    onSubmit(text:string) {
         if (this.props.onSubmit) {
-            this.props.onSubmit();
+            this.props.onSubmit(text);
         }
     }
 
@@ -97,48 +96,24 @@ export default class FilterInput extends React.Component<any,any> {
             this.handlePressingAnyCharacter();
         })
 
-        // ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {
+        ref.codeMirror.on("blur", ()=>{
+            this.onSubmit(this.doc.getValue());
+        })
 
-        //     //escape
-        //     if (e.keyCode == 27) {
-        //         return;
-        //     }
-
-        //     //space,tab
-        //     if (e.keyCode == 32 || e.keyCode == 9) {
-        //         return this.handlePressingSpace();
-        //     }
-
-        //     if (e.keyCode == 13) {
-        //         console.log("enter" + Math.random());
-        //         this.onSubmit();
-
-        //         if(grammarUtils.isSeparator(this.getLastCharacter())){
-        //             this.handlePressingAnyCharacter();
-        //         }
-
-        //         return;
-        //     }
-
-        //     if(e.keyCode >=37 && e.keyCode <= 40 ){
-        //         return
-        //     }
-
-        //     if(e.ctrlKey || e.altKey || e.shiftKey) return;
-
-        //     this.handlePressingAnyCharacter();
-        // })
+        ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {
+            if (e.keyCode == 13) {
+                console.log("enter" + Math.random());
+                this.onSubmit(this.doc.getValue());                
+            }
+        })
     }
 
     render() {
         return (
-            <div className="filter-input">
                 <ReactCodeMirror
                     ref={this.codeMirrorRef.bind(this) }
                     onChange={this.props.onChange}
                     options={this.options}  value={this.props.value}/>
-            </div>
-
 
         );
     }
