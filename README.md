@@ -61,7 +61,7 @@ export default class App extends React.Component {
                     <h2>React Filter Box</h2>
          
                         <ReactFilterBox 
-                            query={this.state.query}
+                            
                             data={data}
                             options={this.options}
                             onParseOk={this.onParseOk.bind(this)}
