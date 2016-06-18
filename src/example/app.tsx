@@ -20,22 +20,19 @@ export default class App extends React.Component<any,any> {
 
          this.options = [
             {
-                columnText: "Name",
                 columField: "Name",
                 type:"text"
             },
             {
-                columnText: "Description",
                 columField: "Description",
                 type:"text"
             },
             {
-                columnText: "Status",
                 columField: "Status",
                 type:"selection"
             },
             {
-                columnText: "Email",
+                columnText: "Email @",
                 columField: "Email",
                 type:"text"
             }
@@ -44,15 +41,10 @@ export default class App extends React.Component<any,any> {
 
     onParseOk(expressions: Expression[]){
 
-        var newData = new SimpleResultProcessing().process(data,expressions);
+        var newData = new SimpleResultProcessing(this.options).process(data,expressions);
         this.setState({data:newData});
         console.log(newData);
     }
-
-    onParseError(error:any){
-        console.log(error);
-    }
-
 
     render(){
         var rows = this.state.data;
@@ -65,7 +57,6 @@ export default class App extends React.Component<any,any> {
                     data={data}
                     options={this.options}
                     onParseOk={this.onParseOk.bind(this)}
-                    onParseError={this.onParseError.bind(this)}
                      />
                      <Table
                     rowHeight={50}

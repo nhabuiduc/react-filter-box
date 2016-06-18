@@ -15,39 +15,43 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
         
         this.categories = _.map(this.options, f=> {
             if(f.columnText) return f.columnText;
-            f.columnText
+            return f.columField
         });
     }
+
+    
 
     needCategories() {
         return this.categories;
     }
 
-    needOperators(lastCategory:string) {
+    needOperators(parsedCategory:string) {
+        // parsedCategory = this.tryToGetFieldCategory(parsedCategory);
         var found = _.find(this.options,f =>{
             return f.customOperatorFunc != null && (
-                f.columnText == lastCategory || f.columField == lastCategory
+                f.columnText == parsedCategory || f.columField == parsedCategory
             )
         })
 
         if(found){
-            return found.customOperatorFunc(lastCategory); 
+            return found.customOperatorFunc(parsedCategory); 
         }
         return ["==", "!=","contains","!contains"];
     }
 
-    needValues(lastCategory:string, lastOperator:string):any[] {
-        var found = _.find(this.options, f=>f.columField == lastCategory || f.columnText == lastCategory);
+    needValues(parsedCategory:string, parsedOperator:string):any[] {
+        // parsedCategory = this.tryToGetFieldCategory(parsedCategory);
+        var found = _.find(this.options, f=>f.columField == parsedCategory || f.columnText == parsedCategory);
 
         if(found != null && found.type == "selection" && this.data != null){
-            if(!this.cache[lastCategory]) {
-                this.cache[lastCategory] = _.chain(this.data).map(f=>f[lastCategory]).uniq().value();
+            if(!this.cache[parsedCategory]) {
+                this.cache[parsedCategory] = _.chain(this.data).map(f=>f[parsedCategory]).uniq().value();
             }
-            return this.cache[lastCategory];
+            return this.cache[parsedCategory];
         }
 
         if(found != null && found.customValuesFunc){
-            return found.customValuesFunc(lastCategory, lastOperator);
+            return found.customValuesFunc(parsedCategory, parsedOperator);
         }
 
         return [];
@@ -56,7 +60,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
 
 export interface Option{
     columField:string;
-    columnText:string;
+    columnText?:string;
     type: string;
     customOperatorFunc?: (category:string)=>string[]
     customValuesFunc?: (category:string,operator:string)=>string[]
