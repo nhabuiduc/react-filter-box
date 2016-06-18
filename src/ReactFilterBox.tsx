@@ -30,6 +30,10 @@ export default class ReactFilterBox extends React.Component<any,any> {
         
         this.parser.setAutoCompleteHandler(autoCompleteHandler);
 
+        this.state = {
+            isFocus:false,
+            isError:false
+        }
         //need onParseOk, onParseError, onChange, options, data
     }
 
@@ -47,12 +51,37 @@ export default class ReactFilterBox extends React.Component<any,any> {
     }
 
     onChange(query:string){
+        var result = this.parser.parse(query);
+        if(result.isError){
+            this.setState({isError:true})
+        }else{
+            this.setState({isError:false})
+        }
+        
         this.props.onChange(query);
     }
 
+    onBlur(){
+        this.setState({isFocus:false});
+    }
+
+    onFocus(){
+        this.setState({isFocus:true});
+    }
+
     render(){
-        return <div className="filter-input">
+        var className = "react-filter-box";
+        if(this.state.isFocus){
+            className += " focus"
+        }
+        if(this.state.isError){
+            className += " error"
+        }
+
+        return <div className={className}>
             <FilterInput
+            onBlur={this.onBlur.bind(this)}
+            onFocus={this.onFocus.bind(this)}
             value={this.props.query}
             needAutoCompleteValues={this.needAutoCompleteValues.bind(this) } 
             onSubmit={this.onSubmit.bind(this)} 

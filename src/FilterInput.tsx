@@ -12,7 +12,7 @@ import "./FilterMode"
 import 'codemirror/lib/codemirror.css';
 // import 'codemirror/theme/monokai.css';
 import "codemirror/addon/hint/show-hint.css";
-import "./FilterInput.less";
+
 import grammarUtils from "./GrammarUtils";
 import {HintResult,HintFunc,HintOptions,ExtendedCodeMirror,Completion} from "./models/ExtendedCodeMirror";
 import AutoCompletePopup from "./AutoCompletePopup";
@@ -25,6 +25,11 @@ export default class FilterInput extends React.Component<any,any> {
     doc: CodeMirror.Doc;
     autoCompletePopup:AutoCompletePopup;
     
+    public static defaultProps: any = {
+        onBlur: ()=>{},
+        onFocus: ()=>{},
+        
+    };
 
     constructor(props:any) {
         super(props);
@@ -92,12 +97,14 @@ export default class FilterInput extends React.Component<any,any> {
             this.handlePressingAnyCharacter();
         })
 
-        ref.codeMirror.on("focus", ()=>{
+        ref.codeMirror.on("focus", (cm,e?)=>{
             this.handlePressingAnyCharacter();
+            this.props.onFocus(e);
         })
 
-        ref.codeMirror.on("blur", ()=>{
+        ref.codeMirror.on("blur", (cm,e?)=>{
             this.onSubmit(this.doc.getValue());
+            this.props.onBlur(e)
         })
 
         ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {

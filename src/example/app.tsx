@@ -6,6 +6,7 @@ import "fixed-data-table/dist/fixed-data-table.min.css";
 import data from "./data";
 
 import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing,Expression} from "../ReactFilterBox";
+import "../ReactFilterBox.less";
 
 export default class App extends React.Component<any,any> {
     
