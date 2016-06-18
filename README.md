@@ -19,7 +19,7 @@ Demo: https://nhabuiduc.github.io
 
 Simple case:
 
-```
+```javascript
 import ReactFilterBox, {SimpleResultProcessing} from "../ReactFilterBox";    
 import "../ReactFilterBox.less";
 
