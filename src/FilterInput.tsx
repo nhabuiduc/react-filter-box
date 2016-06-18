@@ -13,14 +13,18 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
 import "codemirror/addon/hint/show-hint.css";
 import "./FilterInput.less";
-
+import grammarUtils from "./GrammarUtils";
+import {HintResult,HintFunc,HintOptions,ExtendedCodeMirror,Completion} from "./models/ExtendedCodeMirror";
+import AutoCompletePopup from "./AutoCompletePopup";
 
 export default class FilterInput extends React.Component<any,any> {
 
     options:CodeMirror.EditorConfiguration;
-    hintOptions: HintOptions;
-    completionShow = false;
+    
     codeMirror:ExtendedCodeMirror;
+    doc: CodeMirror.Doc;
+    autoCompletePopup:AutoCompletePopup;
+    
 
     constructor(props:any) {
         super(props);
@@ -29,66 +33,31 @@ export default class FilterInput extends React.Component<any,any> {
             // lineNumbers: true,
             mode: "filter-mode",
         }
-
-        this.hintOptions = this.createHintOption();
     }
 
-    createHintOption() {
-
-        var hintOptions = new HintOptions();
-
-        hintOptions.hint = (() => {
-            var {hintValues, from} = hintOptions;
-            var cursor = this.codeMirror.getDoc().getCursor();
-            var text = this.codeMirror.getDoc().getRange(from, cursor);
-            var values = hintValues;
-            if (text) {
-                values = _.filter(hintValues, f => _.startsWith(f.toLowerCase(), text.toLowerCase()))
-            }
-            
-
-            return {
-                list: values,
-                from: from,
-                to: cursor
-            }
-        } ) as HintFunc;
-
-        hintOptions.hint.supportsSelection = true;
-
-        return hintOptions;
-    }
-
-    raiseShowAutoComplete(codeMirror:CodeMirror.Editor) {
-
-        var doc = this.codeMirror.getDoc();
-        if (this.props.needAutoCompleteValues) {
-            var text = doc.getRange({ line: 0, ch: 0 }, doc.getCursor());
-            return this.props.needAutoCompleteValues(codeMirror, text);
+    findLastSeparatorPositionWithEditor(){
+        var doc =  this.codeMirror.getDoc();
+        var currentCursor = doc.getCursor();
+        var text = doc.getRange({ line: 0, ch: 0 }, currentCursor);
+        var index = grammarUtils.findLastSeparatorIndex(text);
+        return {
+            line: currentCursor.line,
+            ch: currentCursor.ch - (text.length - index) + 1
         }
 
-        return [];
     }
 
+
     handlePressingSpace() {
-        this.handleAutoComplete();
+        this.autoCompletePopup.show();
     }
 
     handlePressingAnyCharacter() {
-        if (this.completionShow) {
+        if (this.autoCompletePopup.completionShow) {
             return;
         }
 
-        this.handleAutoComplete();
-    }
-
-    handleAutoComplete() {
-        this.hintOptions.hintValues = this.raiseShowAutoComplete(this.codeMirror);
-        var cursor = this.codeMirror.getDoc().getCursor();
-        this.hintOptions.from = { line: cursor.line, ch: cursor.ch };
-
-        this.codeMirror.showHint(this.hintOptions);
-        this.completionShow = true;
+        this.autoCompletePopup.show();
     }
 
     onSubmit() {
@@ -97,6 +66,11 @@ export default class FilterInput extends React.Component<any,any> {
         }
     }
 
+    getLastCharacter(){
+         var cursor = this.doc.getCursor();
+         if(cursor.ch ==0 ) return "";
+         return this.doc.getRange({line:cursor.line,ch:cursor.ch-1}, cursor);
+    }
     codeMirrorRef(ref:{codeMirror:ExtendedCodeMirror}) {
         if (ref == null) return;
         if (this.codeMirror == ref.codeMirror) {
@@ -104,9 +78,9 @@ export default class FilterInput extends React.Component<any,any> {
         }
 
         this.codeMirror = ref.codeMirror;
-
-        ref.codeMirror.on("endCompletion", () => {
-            this.completionShow = false;
+        this.doc = ref.codeMirror.getDoc();   
+        this.autoCompletePopup = new AutoCompletePopup(this.codeMirror,(text)=>{
+            return this.props.needAutoCompleteValues(this.codeMirror, text);
         })
 
         ref.codeMirror.on("beforeChange", function (instance, change) {
@@ -115,33 +89,45 @@ export default class FilterInput extends React.Component<any,any> {
             return true;
         });
 
-
-        ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {
-
-            //escape
-            if (e.keyCode == 27) {
-                return;
-            }
-
-            //space,tab
-            if (e.keyCode == 32 || e.keyCode == 9) {
-                return this.handlePressingSpace();
-            }
-
-
-            if (e.keyCode == 13) {
-                console.log("enter" + Math.random());
-                this.onSubmit();
-                if (!this.completionShow) {
-                    e.preventDefault();
-                }
-
-                return;
-
-            }
-
+        ref.codeMirror.on("changes", ()=>{
             this.handlePressingAnyCharacter();
         })
+
+        ref.codeMirror.on("focus", ()=>{
+            this.handlePressingAnyCharacter();
+        })
+
+        // ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {
+
+        //     //escape
+        //     if (e.keyCode == 27) {
+        //         return;
+        //     }
+
+        //     //space,tab
+        //     if (e.keyCode == 32 || e.keyCode == 9) {
+        //         return this.handlePressingSpace();
+        //     }
+
+        //     if (e.keyCode == 13) {
+        //         console.log("enter" + Math.random());
+        //         this.onSubmit();
+
+        //         if(grammarUtils.isSeparator(this.getLastCharacter())){
+        //             this.handlePressingAnyCharacter();
+        //         }
+
+        //         return;
+        //     }
+
+        //     if(e.keyCode >=37 && e.keyCode <= 40 ){
+        //         return
+        //     }
+
+        //     if(e.ctrlKey || e.altKey || e.shiftKey) return;
+
+        //     this.handlePressingAnyCharacter();
+        // })
     }
 
     render() {
@@ -156,27 +142,4 @@ export default class FilterInput extends React.Component<any,any> {
 
         );
     }
-}
-
-
-interface HintResult {
-    from: CodeMirror.Position;
-    to:CodeMirror.Position;
-    list: string[];
-}
-
-interface HintFunc {
-    (): HintResult;
-    supportsSelection:boolean;
-}
-
-class HintOptions {
-    hint: HintFunc;
-    completeSingle: boolean = false;
-    hintValues: string[]=[];
-    from: CodeMirror.Position;
-}
-
-interface ExtendedCodeMirror  extends CodeMirror.Editor{
-    showHint(hintOptions: HintOptions):void
 }

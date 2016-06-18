@@ -20,7 +20,9 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
+    
     loaders: [
+    
     //   {
     //   test: /\.js$/,
     //   loaders: ['react-hot', 'babel'],

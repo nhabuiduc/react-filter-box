@@ -1,13 +1,17 @@
 {
   "name": "react-filter-box",
   "dependencies": {
+    "chai": "registry:npm/chai#3.5.0+20160415060238",
+    "enzyme": "registry:npm/enzyme#2.2.0+20160322031343",
     "lodash": "registry:npm/lodash#4.0.0+20160416211519"
   },
   "globalDependencies": {
     "codemirror": "registry:dt/codemirror#0.0.0+20160608063737",
     "fixed-data-table": "registry:dt/fixed-data-table#0.6.0+20160425160256",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
     "pegjs": "registry:dt/pegjs#0.0.0+20160317120654",
     "react": "registry:dt/react#0.14.0+20160602151522",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040"
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "sinon": "registry:dt/sinon#1.16.0+20160517064723"
   }
 }

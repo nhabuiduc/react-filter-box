@@ -6,7 +6,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
 
     parseResult: Expression[];
     categories: string[];
-    cache:any;
+    cache:any = {};
 
     constructor(private data:any[], private options?:Option[]) {
         super();
