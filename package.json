@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src",
-    "test": "karma start"
+    "test": "karma start",
+    "dist": "webpack --config webpack.prod.config.js --progress -p"
   },
   "repository": {
     "type": "git",
