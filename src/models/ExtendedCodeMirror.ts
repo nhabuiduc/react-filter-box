@@ -15,7 +15,7 @@ export interface HintFunc {
 export class HintOptions {
     hint: HintFunc;
     completeSingle: boolean = false;
-    hintValues: string[]=[];
+    hintValues: HintInfo[]=[];
 }
 
 export interface ExtendedCodeMirror  extends CodeMirror.Editor{
@@ -25,8 +25,14 @@ export interface ExtendedCodeMirror  extends CodeMirror.Editor{
 
 export interface Completion{
     text:string;
+    type?:string;
     displayText?:string;
     className?:string;
     render?:(element:any,self:HintResult,data:Completion)=>void;
     hint?:(cm:ExtendedCodeMirror, self:HintResult, data:Completion)=>void;
+}
+
+export interface HintInfo {
+    value:string;
+    type:string;
 }

@@ -4,7 +4,7 @@ import * as _ from "lodash";
 import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
 import ParseTrace from "./ParseTrace";
 import grammarUtils from "./GrammarUtils";
-
+import {HintInfo} from "./models/ExtendedCodeMirror";
 
 export default class FilterQueryParser {
     autoCompleteHandler = new BaseAutoCompleteHandler();
@@ -27,19 +27,16 @@ export default class FilterQueryParser {
         }
     }
 
-    getSugessions(query: string) {
-
-        // console.log("query:", query)
+    getSugessions(query: string):HintInfo[] {
 
         query = grammarUtils.stripEndWithNonSeparatorCharacters(query);
-
-        // console.log("stripped query:", query)
 
         try {
             this.parser.parseTrace.clear();
             var result = this.parser.parse(query);
             if(!query || grammarUtils.isLastCharacterWhiteSpace(query)){
-                return ["AND", "OR"];
+                return _.map(["AND", "OR"],f=> { return { value:f, type:"literal" } });
+                
             }
 
             return [];

@@ -1,15 +1,18 @@
 import * as CodeMirror from "codemirror";
 import * as _  from "lodash";
-import {HintResult,HintFunc,HintOptions,ExtendedCodeMirror,Completion} from "./models/ExtendedCodeMirror";
+import {HintResult,HintFunc,HintOptions,ExtendedCodeMirror,Completion, HintInfo} from "./models/ExtendedCodeMirror";
 import grammarUtils from "./GrammarUtils";
+import * as ReactDOM from 'react-dom';
+import * as React from 'react';
 
 export default class AutoCompletePopup {
     doc:CodeMirror.Doc;
     hintOptions: HintOptions;
     completionShow = false;
     appendSpace=true;
+    customRenderCompletionItem:(self:HintResult,data:Completion)=>React.ReactElement<any>;
 
-    constructor(private cm: ExtendedCodeMirror, private needAutoCompletevalues:(text:string)=>string[]) {
+    constructor(private cm: ExtendedCodeMirror, private needAutoCompletevalues:(text:string)=>HintInfo[]) {
         this.doc = cm.getDoc();
 
         cm.on("endCompletion", () => {
@@ -17,6 +20,7 @@ export default class AutoCompletePopup {
         })
 
         this.hintOptions = this.createHintOption();
+        
     }
 
     processText(text:string):string{
@@ -31,11 +35,24 @@ export default class AutoCompletePopup {
         cm.replaceRange(this.processText(data.text),self.from,self.to,"complete");
     }
 
+    renderHintElement(element:HTMLElement,self:HintResult,data:Completion){
+        var div = document.createElement("div");
+        var className = ` hint-value cm-${data.type}`
+        if(this.customRenderCompletionItem){
+            ReactDOM.render(this.customRenderCompletionItem(self,data),div);
+        }else{
+            ReactDOM.render(<div className={className}>{data.text}</div>,div);
+        }
+        
+        element.appendChild(div);
+    }
 
-    buildComletionObj(value:string):Completion{
+    buildComletionObj(info:HintInfo):Completion{
         return {
-                text:value,
-                hint:this.onPick.bind(this)
+                text:info.value,
+                type:info.type,
+                hint:this.onPick.bind(this),
+                render: this.renderHintElement.bind(this)
             }
     }
 
@@ -75,7 +92,7 @@ export default class AutoCompletePopup {
 
             var values = hintValues;
             if (text) {
-                values = _.filter(hintValues, f => _.startsWith(f.toLowerCase(), text.toLowerCase()))
+                values = _.filter(hintValues, f => _.startsWith(f.value.toLowerCase(), text.toLowerCase()))
             }
             
             return {

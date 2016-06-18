@@ -14,7 +14,7 @@ var data = [
 	{
 		"Name": "Abdul Cooke",
 		"Description": "vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut",
-		"Status": "Divorced",
+		"Status": "Divorced Again",
 		"Email": "ligula.Donec@blandit.edu"
 	},
 	{

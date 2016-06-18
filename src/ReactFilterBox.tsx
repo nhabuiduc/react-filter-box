@@ -17,7 +17,9 @@ export default class ReactFilterBox extends React.Component<any,any> {
         onParseError: ()=>{},
         onChange: ()=>{},
         onDataFiltered: ()=>{},
-        autoCompleteHandler:null
+        autoCompleteHandler:null,
+        onBlur:()=>{},
+        onFocus:()=>{}
     };
 
     parser = new FilterQueryParser();
@@ -80,6 +82,7 @@ export default class ReactFilterBox extends React.Component<any,any> {
 
         return <div className={className}>
             <FilterInput
+            customRenderCompletionItem= {this.props.customRenderCompletionItem}
             onBlur={this.onBlur.bind(this)}
             onFocus={this.onFocus.bind(this)}
             value={this.props.query}

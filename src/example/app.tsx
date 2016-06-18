@@ -7,6 +7,7 @@ import data from "./data";
 
 import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing,Expression} from "../ReactFilterBox";
 import "../ReactFilterBox.less";
+import "./app.less";
 
 export default class App extends React.Component<any,any> {
     
@@ -14,7 +15,6 @@ export default class App extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state = {
-            query: `Status == Divorced AND (Description contains "t") `,
             data: data
         }
 
@@ -53,16 +53,15 @@ export default class App extends React.Component<any,any> {
         console.log(error);
     }
 
-    onChange(query:string){
-        this.setState({query:query})
-    }
 
     render(){
         var rows = this.state.data;
-         return <div> 
+         return <div className="main-container"> 
+         <h2>React Filter Box</h2>
+         <h3>Default setting, support filter data out of the box </h3>
+         
          <ReactFilterBox 
                     query={this.state.query}
-                    onChange={this.onChange.bind(this)}
                     data={data}
                     options={this.options}
                     onParseOk={this.onParseOk.bind(this)}
@@ -72,7 +71,7 @@ export default class App extends React.Component<any,any> {
                     rowHeight={50}
                     rowsCount={rows.length}
                     width={800}
-                    height={800}
+                    height={400}
                     headerHeight={50}>
                     <Column
                         header={<Cell>Name</Cell>}
