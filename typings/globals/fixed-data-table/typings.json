@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/91d28b86d71068abe2e8cb223fcc8151e3683b31/fixed-data-table/fixed-data-table.d.ts",
+    "raw": "registry:dt/fixed-data-table#0.6.0+20160425160256",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/91d28b86d71068abe2e8cb223fcc8151e3683b31/fixed-data-table/fixed-data-table.d.ts"
+  }
+}

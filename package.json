@@ -28,6 +28,7 @@
   },
   "homepage": "",
   "devDependencies": {
+    "awesome-typescript-loader": "^1.1.1",
     "babel-core": "^6.0.20",
     "babel-eslint": "^4.1.3",
     "babel-loader": "^6.0.1",
@@ -41,8 +42,10 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "pegjs-loader": "^0.4.0",
+    "raw-loader": "^0.5.1",
     "react-hot-loader": "^1.3.0",
     "style-loader": "^0.13.1",
+    "typescript": "^1.8.10",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1"
   },

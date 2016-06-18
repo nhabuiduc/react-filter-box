@@ -1,9 +1,15 @@
 import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
+import Expression from "./Expression";
+import * as _ from "lodash";
 
 export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler {
-    constructor(data, options) {
+
+    parseResult: Expression[];
+    categories: string[];
+    cache:any;
+
+    constructor(private data:any[], private options?:Option[]) {
         super();
-        this.data = data;
         
         this.options = [
             {
@@ -31,19 +37,19 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
         this.parseResult = null;
         
         this.categories = _.map(this.options, f=> f.columnText);
-        this.cache = {};
     }
 
     needCategories() {
         return this.categories;
     }
 
-    needOperators(lastOperator) {
+    needOperators(lastOperator:string) {
         return ["==", "!=","contains","!contains"];
     }
 
-    needValues(lastCategory, lastOperator) {
+    needValues(lastCategory:string, lastOperator:string):any[] {
         var found = _.find(this.options, f=>f.columField == lastCategory);
+
         if(found != null && found.type == "selection"){
             if(!this.cache[lastCategory]) {
                 this.cache[lastCategory] = _.chain(this.data).map(f=>f[lastCategory]).uniq().value();
@@ -52,4 +58,10 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
         }
         return [];
     }
+}
+
+interface Option{
+    columField:string;
+    columnText:string;
+    type: "text"|"selection";
 }

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": true,
+        "jsx" : "react"
+    },
+    "awesomeTypescriptLoaderOptions": {
+        /* ... */
+    },
+    "exclude": [
+        "node_modules",
+        "wwwroot"
+    ]
+}

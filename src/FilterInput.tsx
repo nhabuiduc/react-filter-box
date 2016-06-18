@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import _ from "lodash";
+import * as React  from 'react';
+import * as _  from "lodash";
 import FilterQueryParser from "./FilterQueryParser";
 import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
-import ReactCodeMirror from "react-codemirror";
+// import ReactCodeMirror from "react-codemirror";
+var ReactCodeMirror:any = require("react-codemirror");
 import "codemirror/addon/hint/show-hint";
 
-import CodeMirror from "codemirror";
+import * as CodeMirror from "codemirror";
 import "./FilterMode"
-
 
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
@@ -15,56 +15,53 @@ import "codemirror/addon/hint/show-hint.css";
 import "./FilterInput.less";
 
 
+export default class FilterInput extends React.Component<any,any> {
 
-export default class FilterInput extends React.Component {
-    constructor(props) {
+    options:CodeMirror.EditorConfiguration;
+    hintOptions: HintOptions;
+    completionShow = false;
+    codeMirror:ExtendedCodeMirror;
+
+    constructor(props:any) {
         super(props);
 
         this.options = {
             // lineNumbers: true,
             mode: "filter-mode",
-            height: 50
         }
 
-        this.hintValues = [];
-
         this.hintOptions = this.createHintOption();
-        this.completionShow = false;
     }
 
     createHintOption() {
 
+        var hintOptions = new HintOptions();
 
-        var hintFunc = () => {
-            var {hintValues, from} = this.hintOptions;
-            var cursor = this.codeMirror.doc.getCursor();
-            var text = this.codeMirror.doc.getRange(from, cursor);
+        hintOptions.hint = (() => {
+            var {hintValues, from} = hintOptions;
+            var cursor = this.codeMirror.getDoc().getCursor();
+            var text = this.codeMirror.getDoc().getRange(from, cursor);
             var values = hintValues;
             if (text) {
                 values = _.filter(hintValues, f => _.startsWith(f.toLowerCase(), text.toLowerCase()))
             }
+            
 
             return {
                 list: values,
                 from: from,
                 to: cursor
             }
-        }
+        } ) as HintFunc;
 
-        hintFunc.supportsSelection = true;
-        return {
-            // text: "text",
-            // displayText: "displayText",
-            hint: hintFunc,
-            completeSingle: false,
-            hintValue: [],
+        hintOptions.hint.supportsSelection = true;
 
-        };
+        return hintOptions;
     }
 
-    raiseShowAutoComplete(codeMirror) {
+    raiseShowAutoComplete(codeMirror:CodeMirror.Editor) {
 
-        var doc = this.codeMirror.doc;
+        var doc = this.codeMirror.getDoc();
         if (this.props.needAutoCompleteValues) {
             var text = doc.getRange({ line: 0, ch: 0 }, doc.getCursor());
             return this.props.needAutoCompleteValues(codeMirror, text);
@@ -87,7 +84,7 @@ export default class FilterInput extends React.Component {
 
     handleAutoComplete() {
         this.hintOptions.hintValues = this.raiseShowAutoComplete(this.codeMirror);
-        var cursor = this.codeMirror.doc.getCursor();
+        var cursor = this.codeMirror.getDoc().getCursor();
         this.hintOptions.from = { line: cursor.line, ch: cursor.ch };
 
         this.codeMirror.showHint(this.hintOptions);
@@ -100,7 +97,7 @@ export default class FilterInput extends React.Component {
         }
     }
 
-    codeMirrorRef(ref) {
+    codeMirrorRef(ref:{codeMirror:ExtendedCodeMirror}) {
         if (ref == null) return;
         if (this.codeMirror == ref.codeMirror) {
             return;
@@ -114,15 +111,12 @@ export default class FilterInput extends React.Component {
 
         ref.codeMirror.on("beforeChange", function (instance, change) {
             var newtext = change.text.join("").replace(/\n/g, ""); // remove ALL \n !
-            change.update(change.from, change.to, [newtext]);
+            change.update(change.from, change.to, [newtext] as any);
             return true;
         });
 
 
-        ref.codeMirror.on("keyup", (cm, e) => {
-            // var doc = this.codeMirror.doc;
-            // var cursor = doc.getCursor();
-            //  var text = doc.getRange({line:0,ch:0},cursor);
+        ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {
 
             //escape
             if (e.keyCode == 27) {
@@ -162,4 +156,27 @@ export default class FilterInput extends React.Component {
 
         );
     }
+}
+
+
+interface HintResult {
+    from: CodeMirror.Position;
+    to:CodeMirror.Position;
+    list: string[];
+}
+
+interface HintFunc {
+    (): HintResult;
+    supportsSelection:boolean;
+}
+
+class HintOptions {
+    hint: HintFunc;
+    completeSingle: boolean = false;
+    hintValues: string[]=[];
+    from: CodeMirror.Position;
+}
+
+interface ExtendedCodeMirror  extends CodeMirror.Editor{
+    showHint(hintOptions: HintOptions):void
 }

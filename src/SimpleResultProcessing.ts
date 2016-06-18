@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash";
 import BaseResultProcessing from "./BaseResultProcessing";
 
 export default class SimpleResultProcessing extends BaseResultProcessing {
@@ -6,7 +6,7 @@ export default class SimpleResultProcessing extends BaseResultProcessing {
         super();
     }   
     
-    filter(row, field, operator, value){
+    filter(row:any, field:string, operator:string, value:string){
         
         switch(operator){
             case "==": return row[field] == value;

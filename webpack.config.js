@@ -6,8 +6,11 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './src/index'
+    './src/index.tsx'
   ],
+  resolve: {
+    extensions: ['', '.ts','.tsx', '.webpack.js', '.web.js', '.js']
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -17,15 +20,20 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
-      include: path.join(__dirname, 'src')
-    },
+    loaders: [
+    //   {
+    //   test: /\.js$/,
+    //   loaders: ['react-hot', 'babel'],
+    //   include: path.join(__dirname, 'src')
+    // },
     {
-        test: /\.pegjs$/,
-        loader: 'pegjs-loader'
+        test: [/\.ts$/,/\.tsx$/],
+        loader: 'awesome-typescript-loader'
       },
+    // {
+    //     test: /\.pegjs$/,
+    //     loader: 'pegjs-loader'
+    //   },
       {
         test: [/\.less$/,/\.css$/],
         loader: "style!css!less"

@@ -1,12 +1,17 @@
+import * as _ from "lodash";
+import * as PEG from "pegjs";
+
+import {ExtendedParser} from "./FilterQueryParser";
+
 export default class BaseAutoCompleteHandler{
   constructor(){
     
   }
   
-  handleParseError(parser, error){
+  handleParseError(parser: ExtendedParser, error:PEG.PegjsError){
     
     var trace = parser.parseTrace;
-    return _.flatMap(error.expected, f=>{
+    return _.flatMap(error.expected, (f:PEG.ExpectedItem)=>{
       if(f.type == "literal"){
         return [f.value];
       }
@@ -30,15 +35,15 @@ export default class BaseAutoCompleteHandler{
     })
   }
   
-  needCategories(){
+  needCategories():string[]{
     return []
   }
   
-  needOperators(lastOperator){
+  needOperators(lastOperator:string):string[]{
     return []
   }
   
-  needValues(lastCategory, lastOperator){
+  needValues(lastCategory:string, lastOperator:string):string[]{
     return []
   }
   

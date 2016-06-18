@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import _ from "lodash";
+import * as React from 'react';
+import * as _ from "lodash";
 import FilterQueryParser from "./FilterQueryParser";
 import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
 import FilterInput from "./FilterInput";
@@ -9,10 +9,14 @@ import data from "./data";
 import SimpleResultProcessing from "./SimpleResultProcessing";
 
 import GridDataAutoCompleteHandler from "./GridDataAutoCompleteHandler";
+import Expression from "./Expression";
 
-export default class App extends Component {
 
-    constructor(props) {
+export default class App extends React.Component<any,any> {
+
+    parser:FilterQueryParser;
+    parsedResult: Expression[];
+    constructor(props:any) {
         super(props);
         this.state = {
             query: `Status == Divorced AND (Description contains "t")`,
@@ -22,16 +26,15 @@ export default class App extends Component {
         var parser = new FilterQueryParser();
         parser.setAutoCompleteHandler(new GridDataAutoCompleteHandler(data));
         this.parser = parser;
-        this.parsedResult = null;
     }
 
-    onChange(text) {
+    onChange(text:string) {
         this.setState({ query: text });
         this.parsedResult = this.parser.parse(text);
 
     }
 
-    needAutoCompleteValues(codeMirror, text) {
+    needAutoCompleteValues(codeMirror:any, text:string) {
         return this.parser.getSugessions(text);
     }
     
@@ -68,7 +71,8 @@ export default class App extends Component {
                     headerHeight={50}>
                     <Column
                         header={<Cell>Name</Cell>}
-                        cell={({ rowIndex, ...props}) => (
+
+                        cell={({ rowIndex, props}) => (
                             <Cell {...props}>
                                 {rows[rowIndex].Name}
                             </Cell>
@@ -77,8 +81,8 @@ export default class App extends Component {
                     />
                     <Column
                         header={<Cell>Description</Cell>}
-                        cell={({ rowIndex, ...props}) => (
-                            <Cell {...props}>
+                        cell={({ rowIndex }) => (
+                            <Cell >
                                 {rows[rowIndex].Description}
                             </Cell>
                             ) }
@@ -86,8 +90,8 @@ export default class App extends Component {
                     />
                     <Column
                         header={<Cell>Status</Cell>}
-                        cell={({ rowIndex, ...props}) => (
-                            <Cell {...props}>
+                        cell={({ rowIndex }) => (
+                            <Cell >
                                 {rows[rowIndex].Status}
                             </Cell>
                             ) }
@@ -95,8 +99,8 @@ export default class App extends Component {
                     />
                     <Column
                         header={<Cell>Email</Cell>}
-                        cell={({ rowIndex, ...props}) => (
-                            <Cell {...props}>
+                        cell={({ rowIndex }) => (
+                            <Cell >
                                 {rows[rowIndex].Email}
                             </Cell>
                             ) }

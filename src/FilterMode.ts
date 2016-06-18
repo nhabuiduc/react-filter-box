@@ -1,42 +1,35 @@
-import CodeMirror from "codemirror";
+import * as CodeMirror from "codemirror";
 
-CodeMirror.defineMode("filter-mode", function () {
+CodeMirror.defineMode<ModeState>("filter-mode", function (config: CodeMirror.EditorConfiguration, modeOptions?: any) {
 
 
-    var fieldStates = {
-        none: "none",
-        category: "category",
-        operator: "operator",
-        value: "value"
+    function getNextFieldState(fieldState:FieldStates) {
+        if (fieldState == FieldStates.category) return FieldStates.operator;
+        if (fieldState == FieldStates.operator) return FieldStates.value;
+        if (fieldState == FieldStates.value) return FieldStates.category;
     }
 
-    function getNextFieldState(fieldState) {
-        if (fieldState == fieldStates.category) return fieldStates.operator;
-        if (fieldState == fieldStates.operator) return fieldStates.value;
-        if (fieldState == fieldStates.value) return fieldStates.category;
-    }
-
-    function setNextFieldState(state) {
+    function setNextFieldState(state:ModeState):string {
         var nextFieldState = getNextFieldState(state.fieldState);
         var currentFieldState = state.fieldState;
 
         state.fieldState = nextFieldState;
 
-        return currentFieldState;
+        return currentFieldState.toString();
     }
 
-    function isEmpty(char) {
+    function isEmpty(char:string) {
         return char == " " || char == "\r" || char == "\n" || char == "\t";
     }
 
     return {
-        startState: function () {
+        startState: function (): ModeState {
             return {
                 inString: false,
-                fieldState: fieldStates.category
+                fieldState: FieldStates.category
             };
         },
-        token: function (stream, state) {
+        token: function (stream:CodeMirror.StringStream, state:ModeState):string {
             
             if(isEmpty(stream.peek())){
                 stream.eatSpace();
@@ -74,3 +67,15 @@ CodeMirror.defineMode("filter-mode", function () {
         }
     };
 });
+
+class FieldStates  {
+        static none = "none";
+        static category = "category";
+        static operator = "operator";
+        static value = "value";
+    }
+
+interface ModeState{
+    inString:boolean;
+    fieldState: FieldStates;
+}

@@ -1,19 +1,24 @@
-import parser from "./example.pegjs"
-import _ from "lodash";
-import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
-import ParseTrace from "./ParseTrace";
+// import * as parser from "./example.pegjs"
+// var parser = require("./example.pegjs");
+var grammar:string = require<string>( "raw!./example.pegjs");
+import * as PEG from "pegjs";
+import * as _ from "lodash";
+import  BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
+import  ParseTrace from "./ParseTrace";
+
+
+var parser:ExtendedParser = <ExtendedParser>PEG.buildParser(grammar);
 
 parser.parseTrace = new ParseTrace();
 
 export default class FilterQueryParser {
+    autoCompleteHandler = new BaseAutoCompleteHandler();
+    lastError:PEG.PegjsError = null;
+
     constructor() {
-        this.autoCompleteHandler = new BaseAutoCompleteHandler();
-        this.lastError=null;
     }
 
-    
-
-    parse(query) {
+    parse(query: string) {
         try {
             parser.parseTrace.clear();
             var result = parser.parse(query);
@@ -30,11 +35,11 @@ export default class FilterQueryParser {
     
     //for auto complete, we want parser to report error which we need the last space
     
-    isEmptySpace(c){
+    isEmptySpace(c:string){
         return c == " " || c=="\r" || c == "\n" || c == "\t";
     }
     
-    stripEndNonSpaceCharacters(text){
+    stripEndNonSpaceCharacters(text:string){
         if(!text) return text;
         if(this.isEmptySpace(text[text.length - 1])){
             return text;
@@ -45,13 +50,13 @@ export default class FilterQueryParser {
         return text.substr(0,index) + " ";
     }
     
-    getSugessions(query){
+    getSugessions(query:string){
         if(query == null){
             if(this.lastError == null){
                 return ["AND","OR"];
             }
             
-             return this.autoCompleteHandler.handleParseError(parser, ex);
+             return this.autoCompleteHandler.handleParseError(parser, this.lastError);
         }
         
         console.log("query:", query)
@@ -69,7 +74,11 @@ export default class FilterQueryParser {
         }
     }
     
-    setAutoCompleteHandler(autoCompleteHandler){
+    setAutoCompleteHandler(autoCompleteHandler:BaseAutoCompleteHandler){
         this.autoCompleteHandler = autoCompleteHandler;        
     }
+}
+
+export interface ExtendedParser extends PEG.Parser {
+    parseTrace: ParseTrace;
 }
