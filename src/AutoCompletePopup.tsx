@@ -90,7 +90,7 @@ export default class AutoCompletePopup {
                 type:info.type,
                 hint:this.onPick.bind(this),
                 render: this.renderHintElement.bind(this)
-            }
+            };
     }
 
     findLastSeparatorPositionWithEditor(){

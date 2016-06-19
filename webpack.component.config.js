@@ -9,16 +9,27 @@ var config = _.assign(commonConfig, {
     "./src/ReactFilterBox.tsx"
   ],
 
-    externals: {
-    'react': 'react',
-    'react-dom': 'react-dom'
+   externals: {
+    react: {
+      root: 'React',
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+    },
   },
+
   
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'lib'),
     filename: 'react-filter-box.js',
     library: 'react-filter-box',
-    libraryTarget: "CommonJS"
+    libraryTarget: 'umd'
   },
 })
 
