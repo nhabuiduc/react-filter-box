@@ -8,11 +8,18 @@ var config = _.assign(commonConfig, {
   entry: [
     "./src/ReactFilterBox.tsx"
   ],
+
+    externals: {
+    'react': 'react',
+    'react-dom': 'react-dom'
+  },
+  
   output: {
-    path: path.join(__dirname, 'lib'),
+    path: path.join(__dirname, 'dist'),
     filename: 'react-filter-box.js',
-    publicPath: '/static/'
-  }
+    library: 'react-filter-box',
+    libraryTarget: "CommonJS"
+  },
 })
 
 module.exports = config;
