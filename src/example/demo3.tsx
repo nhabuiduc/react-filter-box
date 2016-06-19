@@ -108,7 +108,7 @@ export default class Demo3 extends React.Component<any, any> {
     render() {
         var rows = this.state.data;
         return <div className="main-container">
-            <h3>Add your react component to AutoComplete! <a style={{fontSize:12}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/src/example/demo3.tsx">Source</a></h3>
+            <h3>Add your react component to AutoComplete! <a style={{fontSize:12, color:"#2196F3"}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/src/example/demo3.tsx">Source</a></h3>
 
             <ReactFilterBox
                 onChange={(query:string) => this.setState({query:query})}

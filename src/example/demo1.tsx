@@ -49,7 +49,7 @@ export default class Demo1 extends React.Component<any,any> {
          return <div className="main-container"> 
         
          <h3>Default setting, support filter data out of the box <span style={{fontSize:12,color:"darkgray"}}>(select Status will show values auto complete) </span>
-            <a style={{fontSize:12}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/src/example/demo1.tsx">Source</a>
+            <a style={{fontSize:12, color:"#2196F3"}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/src/example/demo1.tsx">Source</a>
          </h3>
          
          

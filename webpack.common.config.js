@@ -9,7 +9,7 @@ module.exports = {
     loaders: [    
     {
         test: [/\.ts$/,/\.tsx$/],
-        loader: 'awesome-typescript-loader'
+        loaders: ['react-hot','awesome-typescript-loader']
       },
       {
         test: [/\.less$/,/\.css$/],
