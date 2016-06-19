@@ -60,7 +60,7 @@ export default class ReactFilterBox extends React.Component<any,any> {
             this.setState({isError:false})
         }
         
-        this.props.onChange(query);
+        this.props.onChange(query, result);
     }
 
     onBlur(){

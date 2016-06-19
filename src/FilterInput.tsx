@@ -112,7 +112,7 @@ export default class FilterInput extends React.Component<any,any> {
 
         ref.codeMirror.on("keyup", (cm:ExtendedCodeMirror,e?:KeyboardEvent) => {
             if (e.keyCode == 13) {
-                console.log("enter" + Math.random());
+                // console.log("enter" + Math.random());
                 this.onSubmit(this.doc.getValue());                
             }
         })

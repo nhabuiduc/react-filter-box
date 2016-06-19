@@ -13,6 +13,7 @@ Demo: https://nhabuiduc.github.io
 - Support Syntax Highlight
 - Support AutoComplete
 - Allow to add/custom Operator
+- Allow to custom AutoComplete rendering 
 - The result of filter is in Json format
 
 ##How to use:
@@ -20,8 +21,8 @@ Demo: https://nhabuiduc.github.io
 Simple case:
 
 ```javascript
-import ReactFilterBox, {SimpleResultProcessing} from "../ReactFilterBox";    
-import "../ReactFilterBox.less";
+import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing} from "react-filter-box";
+import "react-filter-box/lib/react-filter-box.css"
 
 
 export default class App extends React.Component {

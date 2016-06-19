@@ -84,7 +84,7 @@ export default class Demo2 extends React.Component<any, any> {
 
         var newData = new CustomResultProcessing(this.options).process(data, expressions);
         this.setState({ data: newData });
-        console.log(newData);
+        // console.log(newData);
     }
 
     render() {

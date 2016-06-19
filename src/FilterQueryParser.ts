@@ -42,7 +42,7 @@ export default class FilterQueryParser {
             return [];
             
         } catch (ex) {
-            console.log("sugession:",ex);
+            // console.log("sugession:",ex);
             return this.autoCompleteHandler.handleParseError(this.parser, ex);
         }
     }
