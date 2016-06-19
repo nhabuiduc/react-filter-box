@@ -11,6 +11,7 @@
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
     "pegjs": "registry:dt/pegjs#0.0.0+20160317120654",
     "react": "registry:dt/react#0.14.0+20160602151522",
+    "react-day-picker": "registry:dt/react-day-picker#1.2.0+20160316155526",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "sinon": "registry:dt/sinon#1.16.0+20160517064723"
   }

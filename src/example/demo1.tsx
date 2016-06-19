@@ -48,7 +48,8 @@ export default class Demo1 extends React.Component<any,any> {
         var rows = this.state.data;
          return <div className="main-container"> 
         
-         <h3>Default setting, support filter data out of the box </h3>
+         <h3>Default setting, support filter data out of the box <span style={{fontSize:12,color:"darkgray"}}>(select Status will show values auto complete) </span></h3>
+         
          
          <ReactFilterBox 
                     query={this.state.query}

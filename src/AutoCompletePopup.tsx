@@ -43,11 +43,28 @@ export default class AutoCompletePopup {
         cm.replaceRange(this.processText(value),self.from,self.to,"complete");
     }
 
-    renderHintElement(element:HTMLElement,self:HintResult,data:Completion){
+
+
+    renderHintElement(element:any,self:HintResult,data:Completion){
         var div = document.createElement("div");
-        var className = ` hint-value cm-${data.type}`
+        var className = ` hint-value cm-${data.type}`;
+
+        
+        var registerAndGetPickFunc = ()=>{
+
+            //hack with show-hint code mirror https://github.com/codemirror/CodeMirror/blob/master/addon/hint/show-hint.js
+            // to prevent handling click event
+            element.className += " custom";                 
+            setTimeout(() =>{
+                
+                element.hintId  = null    
+            }, 0);
+
+            return this.manualPick.bind(this,self, data);
+        }
+
         if(this.customRenderCompletionItem){
-            ReactDOM.render(this.customRenderCompletionItem(self,data,this.manualPick.bind(this,self, data)),div);
+            ReactDOM.render(this.customRenderCompletionItem(self,data,registerAndGetPickFunc),div);
         }else{
             ReactDOM.render(<div className={className}>{data.value}</div>,div);
         }
@@ -88,7 +105,6 @@ export default class AutoCompletePopup {
 
     }    
 
-
     show() {
         var cursor = this.doc.getCursor();
         var text = this.doc.getRange({line:0,ch:0}, cursor)
@@ -113,11 +129,8 @@ export default class AutoCompletePopup {
             var values = hintValues;
             if (text) {
                 values = _.filter(hintValues, f => {
-                    if(_.isString(f.value)){
-                        var value = f.value as string;
-                        return _.startsWith(value.toLowerCase(), text.toLowerCase())
-                    }
-                    return true;
+                    var value = f.value as string;
+                    return _.isString(f.value) ? _.startsWith(value.toLowerCase(), text.toLowerCase()) :true;                    
                 })
             }
             
