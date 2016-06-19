@@ -1,6 +1,6 @@
 {
   "name": "react-filter-box",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "simple filter support OR AND, with condition compose by Category operator value",
   "scripts": {
     "start": "node server.js",
@@ -17,6 +17,7 @@
   },
   "main": "lib/react-filter-box.js",
   "keywords": [
+    "react-component",
     "react",
     "reactjs",
     "filter",
