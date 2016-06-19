@@ -6,12 +6,16 @@
     "start": "node server.js",
     "lint": "eslint src",
     "test": "karma start",
-    "dist": "webpack --config webpack.prod.config.js --progress -p"
+    "dist": "webpack --config webpack.prod.config.js --progress -p",
+    "component-package": "webpack --config webpack.component.config.js --progress -p && npm run less",
+    "less":"lessc ./src/ReactFilterBox.less ./lib/ReactFilterBox.css",
+    "prepublish":"npm run component-package"
   },
   "repository": {
     "type": "git",
     "url": ""
   },
+  "main": "lib/react-filter-box.js",
   "keywords": [
     "react",
     "reactjs",

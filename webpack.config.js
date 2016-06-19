@@ -1,16 +1,15 @@
 var path = require('path');
 var webpack = require('webpack');
+var _ = require("lodash");
+var commonConfig = require("./webpack.common.config");
 
-module.exports = {
+var config = _.assign(commonConfig, {
   devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     './src/example/index.tsx'
   ],
-  resolve: {
-    extensions: ['', '.ts','.tsx', '.webpack.js', '.web.js', '.js']
-  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -18,16 +17,8 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
-  ],
-  module: {    
-    loaders: [    
-    {
-        test: [/\.ts$/,/\.tsx$/],
-        loaders:['react-hot', 'awesome-typescript-loader']
-      },
-      {
-        test: [/\.less$/,/\.css$/],
-        loader: "style!css!less"
-      }]
-  }
-};
+  ]
+})
+
+module.exports = config;
+
