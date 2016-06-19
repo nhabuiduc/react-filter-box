@@ -1,7 +1,10 @@
 >## React Filter Box
 
-A Simple filter box mainly used to filter DataTable,  which supports Condition AND/OR, 
-and condition with struture Category-operator-Value. This library is inspired by React Structured Filter library,
+![alt tag](https://mskxxa-dm2306.files.1drv.com/y3mthZuvqevAuYkXsYFKwmnNtgAlPk7dmhPKCGtpvJf4YnxhYVMA0xUe7Q1wqVbEysoPMoJda7raS716lg8eJbjBCUFWzocAqcoMLc8hoXVERmOOsYKO4lPpoqLJVOZXhHhuwkGMU9MpfofIfWDhQo2Xke9VK1YP3uaaqvZLG41I4A?width=660&height=241&cropmode=none)
+![alt tag](https://nmkxxa-dm2306.files.1drv.com/y3m_Os8n7CY2O1r8Xtv8KwNdyayHC2b3skubNpEOaM6USk1W4xBSeY-MB9GQB5alnv_02-3YUzHOlFCG9mmBBtCKpWopjHqMDDJ-b9SIHwO5nhG1Mogt7a_8Mjyzab_ofkkj5ooe7UGzUkYyj_SOd8BRl6SXo1jOqTYMg_3e90dHIk?width=660&height=247&cropmode=none)
+
+A Simple filter box mainly used to filter data in Grid or Table,  which supports Condition AND/OR, 
+and struture Category-operator-Value. This library is inspired by React Structured Filter library,
 but built completely different based on PEGjs and CodeMirror
 
 For example: Column1 contains value1 AND (Column2 == Ok)
