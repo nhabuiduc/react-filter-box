@@ -10,7 +10,8 @@ export default class AutoCompletePopup {
     hintOptions: HintOptions;
     completionShow = false;
     appendSpace=true;
-    customRenderCompletionItem:(self:HintResult,data:Completion)=>React.ReactElement<any>;
+    customRenderCompletionItem:(self:HintResult,data:Completion, pick:(value:string)=>void)=>React.ReactElement<any>;
+    pick:(cm:ExtendedCodeMirror, self:HintResult, data:Completion)=>string;
 
     constructor(private cm: ExtendedCodeMirror, private needAutoCompletevalues:(text:string)=>HintInfo[]) {
         this.doc = cm.getDoc();
@@ -23,33 +24,52 @@ export default class AutoCompletePopup {
         
     }
 
-    processText(text:string):string{
-        if(grammarUtils.needSpaceAfter(text)){
-            return text + " ";
+    processText(value:string|Object):any|Object{
+        if(!_.isString(value)){
+            return value;
+        } 
+        if(grammarUtils.needSpaceAfter(value as string)){
+            return value + " ";
         }
 
-        return text;
+        return value;
     }
 
     onPick(cm:ExtendedCodeMirror, self:HintResult, data:Completion){
-        cm.replaceRange(this.processText(data.text),self.from,self.to,"complete");
+        var value = data.value;
+        if(this.pick){
+            value = this.pick(cm,self,data);
+        }
+        cm.replaceRange(this.processText(value),self.from,self.to,"complete");
     }
 
     renderHintElement(element:HTMLElement,self:HintResult,data:Completion){
         var div = document.createElement("div");
         var className = ` hint-value cm-${data.type}`
         if(this.customRenderCompletionItem){
-            ReactDOM.render(this.customRenderCompletionItem(self,data),div);
+            ReactDOM.render(this.customRenderCompletionItem(self,data,this.manualPick.bind(this,self, data)),div);
         }else{
-            ReactDOM.render(<div className={className}>{data.text}</div>,div);
+            ReactDOM.render(<div className={className}>{data.value}</div>,div);
         }
         
         element.appendChild(div);
     }
 
+    manualPick(self:HintResult,data:Completion, value:string){
+        var completionControl =  this.cm.state.completionActive;
+        if(completionControl ==null) return;
+
+         var index = self.list.indexOf(data);
+         data.hint = (cm:ExtendedCodeMirror, self:HintResult, data:Completion)=>{
+             cm.replaceRange(this.processText(value),self.from,self.to,"complete");
+         }
+         completionControl.pick(self,index); 
+
+    }
+
     buildComletionObj(info:HintInfo):Completion{
         return {
-                text:info.value,
+                value:info.value,
                 type:info.type,
                 hint:this.onPick.bind(this),
                 render: this.renderHintElement.bind(this)
@@ -92,7 +112,13 @@ export default class AutoCompletePopup {
 
             var values = hintValues;
             if (text) {
-                values = _.filter(hintValues, f => _.startsWith(f.value.toLowerCase(), text.toLowerCase()))
+                values = _.filter(hintValues, f => {
+                    if(_.isString(f.value)){
+                        var value = f.value as string;
+                        return _.startsWith(value.toLowerCase(), text.toLowerCase())
+                    }
+                    return true;
+                })
             }
             
             return {

@@ -19,6 +19,20 @@ export default class BaseAutoCompleteHandler {
         return text;
     }
 
+    buildDefaultObjOrGetOriginal(value:string|Object, type:string): HintInfo{
+        if(_.isString(value)){
+            return {
+                value: this.quote(value),
+                type:type
+            }
+        }
+
+        return {
+                value: value,
+                type:type
+            }
+    }
+
     handleParseError(parser: ExtendedParser, error: PEG.PegjsError):HintInfo[] {
 
         var trace = parser.parseTrace;
@@ -32,17 +46,15 @@ export default class BaseAutoCompleteHandler {
                 var lastTokenType = trace.getLastTokenType() || "value";
                 
                 if (lastTokenType == "value") {
-                    result= _.map( this.needCategories(), f=> { return { value:this.quote(f), type:"category" } });
+                    result= _.map( this.needCategories(), f=> { return this.buildDefaultObjOrGetOriginal(f,"category") });
                 }
 
                 if (lastTokenType == "category") {
-                    result= _.map( this.needOperators(trace.getLastCategory()), f=> { return { value:this.quote(f), type:"operator" } });
-                    // result= this.needOperators(trace.getLastCategory());
+                    result= _.map( this.needOperators(trace.getLastCategory()), f=> { return this.buildDefaultObjOrGetOriginal(f,"operator") });
                 }
 
                 if (lastTokenType == "operator") {
-                    result= _.map( this.needValues(trace.getLastCategory(), trace.getLastOperator()), f=> { return { value:this.quote(f), type:"value" } });
-                    // result= this.needValues(trace.getLastCategory(), trace.getLastOperator());
+                    result= _.map( this.needValues(trace.getLastCategory(), trace.getLastOperator()), f=> { return this.buildDefaultObjOrGetOriginal(f,"value") });
                 }                                
             }
 

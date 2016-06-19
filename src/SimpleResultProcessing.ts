@@ -3,7 +3,7 @@ import BaseResultProcessing from "./BaseResultProcessing";
 import {Option} from "./GridDataAutoCompleteHandler"
 
 export default class SimpleResultProcessing extends BaseResultProcessing {
-    constructor( private options?:Option[]){
+    constructor( protected options?:Option[]){
         super();
     }   
     

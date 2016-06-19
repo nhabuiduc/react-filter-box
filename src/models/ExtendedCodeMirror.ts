@@ -24,7 +24,7 @@ export interface ExtendedCodeMirror  extends CodeMirror.Editor{
 }
 
 export interface Completion{
-    text:string;
+    value:string | Object;
     type?:string;
     displayText?:string;
     className?:string;
@@ -33,6 +33,7 @@ export interface Completion{
 }
 
 export interface HintInfo {
-    value:string;
+    value:string|Object;
     type:string;
+
 }

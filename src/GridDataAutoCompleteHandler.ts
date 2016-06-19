@@ -8,7 +8,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
     categories: string[];
     cache:any = {};
 
-    constructor(private data:any[], private options?:Option[]) {
+    constructor(protected data:any[], protected options?:Option[]) {
         super();              
         
         this.parseResult = null;
@@ -18,8 +18,6 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
             return f.columField
         });
     }
-
-    
 
     needCategories() {
         return this.categories;
@@ -36,6 +34,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
         if(found){
             return found.customOperatorFunc(parsedCategory); 
         }
+
         return ["==", "!=","contains","!contains"];
     }
 

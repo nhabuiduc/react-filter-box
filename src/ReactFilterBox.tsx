@@ -82,6 +82,7 @@ export default class ReactFilterBox extends React.Component<any,any> {
 
         return <div className={className}>
             <FilterInput
+            autoCompletePick = {this.props.autoCompletePick}
             customRenderCompletionItem= {this.props.customRenderCompletionItem}
             onBlur={this.onBlur.bind(this)}
             onFocus={this.onFocus.bind(this)}

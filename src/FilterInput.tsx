@@ -86,7 +86,9 @@ export default class FilterInput extends React.Component<any,any> {
         this.autoCompletePopup = new AutoCompletePopup(this.codeMirror,(text)=>{
             return this.props.needAutoCompleteValues(this.codeMirror, text);
         })
+
         this.autoCompletePopup.customRenderCompletionItem = this.props.customRenderCompletionItem;
+        this.autoCompletePopup.pick = this.props.autoCompletePick;
 
         ref.codeMirror.on("beforeChange", function (instance, change) {
             var newtext = change.text.join("").replace(/\n/g, ""); // remove ALL \n !
