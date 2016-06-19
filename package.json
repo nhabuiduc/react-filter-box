@@ -8,7 +8,7 @@
     "test": "karma start",
     "dist": "webpack --config webpack.prod.config.js --progress -p",
     "component-package": "webpack --config webpack.component.config.js --progress -p && npm run less",
-    "less":"lessc ./src/ReactFilterBox.less ./lib/ReactFilterBox.css",
+    "less":"lessc ./src/ReactFilterBox.less ./lib/react-filter-box.css",
     "prepublish":"npm run component-package"
   },
   "repository": {

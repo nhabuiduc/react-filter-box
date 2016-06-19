@@ -21,7 +21,7 @@ export default class FilterQueryParser {
             return this.parser.parse(query);
             // this.lastError = null;
         } catch (ex) {
-            console.log(ex);
+            // console.log(ex);
             ex.isError = true;
             return ex;            
         }
