@@ -1,7 +1,7 @@
 {
   "name": "react-filter-box",
   "version": "1.0.2",
-  "description": "simple filter support OR AND, with condition compose by Category operator value",
+  "description": "Conditional filter supports OR/AND, bracket, Highlighting, Autocomplete, and high extensibility   ",
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src",
