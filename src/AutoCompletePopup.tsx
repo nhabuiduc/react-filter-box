@@ -10,7 +10,7 @@ export default class AutoCompletePopup {
     hintOptions: HintOptions;
     completionShow = false;
     appendSpace=true;
-    customRenderCompletionItem:(self:HintResult,data:Completion, pick:(value:string)=>void)=>React.ReactElement<any>;
+    customRenderCompletionItem:(self:HintResult,data:Completion, registerAndGetPickFunc:()=>PickFunc)=>React.ReactElement<any>;
     pick:(cm:ExtendedCodeMirror, self:HintResult, data:Completion)=>string;
 
     constructor(private cm: ExtendedCodeMirror, private needAutoCompletevalues:(text:string)=>HintInfo[]) {
@@ -147,4 +147,8 @@ export default class AutoCompletePopup {
     }
 
     
+}
+
+interface PickFunc {
+    ():void;
 }

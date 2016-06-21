@@ -92,6 +92,63 @@ export default class App extends React.Component {
 }
 ```
 
+## Properties
+
+**query:string**: binding your text to query of Component
+
+**options:Option[]**: array of option which helps to construct AutoComplete information.
+
+```
+export interface Option {
+    columField:string; // required
+    columnText?:string; // optional
+    type: string; // require "text" or "selection"
+}
+```
+**data: any[]**: (optional) data is used to construct AutoComplete only if 
+you specify in **options** with **type = "selection"**, which it will
+show all posibles values get from data
+
+## Events
+
+**onChange(query: String, expressions: Expressions|Error)**: event raised every change of 
+query, together with expressions if parse is ok, otherwise is error
+
+**onParseOk(expressions:Expressions)**: event raised when parsing is ok
+
+**onParseError(error:Error)**: event raised when parsing error
+
+## Custom Functions
+**customRenderCompletionItem(self:HintResult,data:Completion, registerAndGetPickFunc:Function): ReactComponent**:
+provide your custom AutoComplete Rendering for each Item.
+
+- **self:HintResult**: ignore for now
+- **data:Completion**:
+
+```
+export interface Completion{
+    value:string | Object; // Your value as text, Object if your custom AutoCompleteHandler return Object
+    type?:string;    // "catetory" or "value" or "operator" or "literal"
+}
+``` 
+
+
+- **registerAndGetPickFunc:Function**: you only call this function in case you want 
+to handle the way user wants to select your value in AutoComplete popup. 
+
+In default behavior, user will  press enter to select an item.
+But if for example, your component is DatePicker, and you want user to select any date,
+by clicking on your component, in order to achive that, you must call this method to 
+register with system you want to handle this by yourself.
+
+This method will return another function ** (value:string):void **, which you can call it
+ and provide the value will be inserted into query.
+
+ You can look into file demo3.tsx for detail
+
+ **autoCompleteHandler: BaseAutoCompleteHandler**
+
+ -- tobe continue;
 
 ##License: 
 
