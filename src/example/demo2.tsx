@@ -90,7 +90,7 @@ export default class Demo2 extends React.Component<any, any> {
     render() {
         var rows = this.state.data;
         return <div className="main-container">
-            <h3>Custom Rendering (AutoComplete, Operator) <a style={{fontSize:12, color:"#2196F3"}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/src/example/demo2.tsx">Source</a></h3>
+            <h3>Custom Rendering (AutoComplete, Operator) <a style={{fontSize:12, color:"#2196F3"}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/js-example/src/demo2.js">Source</a></h3>
 
             <ReactFilterBox
                 autoCompleteHandler = {this.customAutoComplete}
