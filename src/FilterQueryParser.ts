@@ -5,6 +5,8 @@ import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
 import ParseTrace from "./ParseTrace";
 import grammarUtils from "./GrammarUtils";
 import {HintInfo} from "./models/ExtendedCodeMirror";
+import Expression from "./Expression";
+import ParsedError from "./ParsedError";
 
 export default class FilterQueryParser {
     autoCompleteHandler = new BaseAutoCompleteHandler();
@@ -15,13 +17,18 @@ export default class FilterQueryParser {
         this.parser.parseTrace = new ParseTrace();
     }
 
-    parse(query: string) {
+    parse(query: string):Expression[] | ParsedError {
+        query = _.trim(query);
+        if(_.isEmpty(query)){
+            return [];
+        }
+
         try {
             this.parser.parseTrace.clear();
             return this.parser.parse(query);
             // this.lastError = null;
         } catch (ex) {
-            // console.log(ex);
+            //  console.log(ex);
             ex.isError = true;
             return ex;            
         }

@@ -6,7 +6,7 @@ export default class BaseResultProcessing {
         
     }   
     
-    process(data:any[],parsedResult:Expression[]){
+    process<T>(data:T[],parsedResult:Expression[]):T[]{
         return _.filter(data, f => {
             return this.predicate(f, parsedResult);
         })
@@ -27,19 +27,21 @@ export default class BaseResultProcessing {
             return  this.predicateSingle(item, parsedResult);  
         }
         
-        var result:boolean = null;
+        var result:boolean = true;
         
         expressions.forEach(f=> {
-            if(result == null){
-                result = this.predicateSingle(item, f);
-            }else{
-                if(f.conditionType.toLowerCase() == "and"){
+            if(_.isUndefined(f.conditionType)){
+                result = this.predicate(item,f);
+            }else
+
+            if(f.conditionType.toLowerCase() == "and"){
                     result = result && this.predicate(item, f);
-                }
-                if(f.conditionType.toLowerCase() == "or"){
-                    result = result || this.predicate(item, f);
-                }
+            }else
+            if(f.conditionType.toLowerCase() == "or"){
+                
+                result = result || this.predicate(item, f);
             }
+            
         })
         
         return result;

@@ -54,7 +54,7 @@ export default class Demo4 extends React.Component {
          return <div className="main-container"> 
         
          <h3> Add your ok or error icon <span style={{fontSize:12,color:"darkgray"}}>(select Status will show values auto complete) </span>
-            <a style={{fontSize:12, color:"#2196F3"}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/js-example/src/demo1.js">Source</a>
+            <a style={{fontSize:12, color:"#2196F3"}} href="https://github.com/nhabuiduc/react-filter-box/blob/master/js-example/src/demo4.js">Source</a>
          </h3>
          
          <div className="demo-4-filter-wrapper">

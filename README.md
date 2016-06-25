@@ -71,7 +71,7 @@ export default class App extends React.Component {
     }
 
     onParseOk(expressions){
-
+        var data = [];
         var newData = new SimpleResultProcessing(this.options).process(data,expressions);
         //your new data here, which is filtered out of the box by SimpleResultProcessing
     }
@@ -111,10 +111,12 @@ show all posibles values get from data
 
 ## Events
 
-**onChange(query: String, expressions: Expressions|Error)**: event raised every change of 
+**onChange(query: String, expressions: Expression[]|Error)**: event raised every change of 
 query, together with expressions if parse is ok, otherwise is error
 
-**onParseOk(expressions:Expressions)**: event raised when parsing is ok
+**onParseOk(expressions:Expression[])**: event raised when parsing is ok
+
+
 
 **onParseError(error:Error)**: event raised when parsing error
 
@@ -150,26 +152,5 @@ This method will return another function ** (value:string):void **, which you ca
 
  -- tobe continue;
 
-##License: 
-
-MIT License
-
-Copyright (c) 2016 Bui Duc Nha
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+##License:  
+[MIT](https://github.com/nhabuiduc/react-filter-box/blob/master/LICENSE.md)
