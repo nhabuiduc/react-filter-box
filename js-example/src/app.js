@@ -10,6 +10,7 @@ import "./app.less";
 import Demo1 from "./Demo1";
 import Demo2 from "./Demo2";
 import Demo3 from "./Demo3";
+import Demo4 from "./Demo4";
 
 export default class App extends React.Component {
     
@@ -24,7 +25,8 @@ export default class App extends React.Component {
              <h2 style={{textAlign:"center"}}>React Filter Box</h2>
                 <Demo1/> 
                 <Demo2/>
-                <Demo3/> 
+                <Demo3/>
+                <Demo4/> 
             </div>
          )
     }

@@ -51,6 +51,7 @@
     "react": "^0.14.6",
     "react-day-picker": "^2.2.0",
     "react-dom": "^0.14.6",
-    "react-filter-box": "^1.0.5"
+    "react-filter-box": "^1.0.5",
+    "react-icons": "^2.1.0"
   }
 }
