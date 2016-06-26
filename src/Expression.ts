@@ -3,8 +3,7 @@
     category?: string;
     operator?: string;
     value?: string;
-    expressions?:Expression[];
-    
+    expressions?:Expression[];    
 }
 
 export default Expression;

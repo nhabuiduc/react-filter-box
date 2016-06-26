@@ -98,7 +98,7 @@ export default class App extends React.Component {
 
 **options:Option[]**: array of option which helps to construct AutoComplete information.
 
-```
+```typescript
 export interface Option {
     columField:string; // required
     columnText?:string; // optional
@@ -114,8 +114,20 @@ show all posibles values get from data
 **onChange(query: String, expressions: Expression[]|Error)**: event raised every change of 
 query, together with expressions if parse is ok, otherwise is error
 
-**onParseOk(expressions:Expression[])**: event raised when parsing is ok
+```typescript
+interface Expression {
+    conditionType?: "OR" | "AND";
+    category?: string;
+    operator?: string;
+    value?: string;
+    expressions?:Expression[];    
+}
+```
 
+to see more about the structure of Expression which parsed from query, please
+take a look at: [unit test](https://github.com/nhabuiduc/react-filter-box/blob/master/test/FilterQueryParser.spec.ts)
+
+**onParseOk(expressions:Expression[])**: event raised when parsing is ok
 
 
 **onParseError(error:Error)**: event raised when parsing error
@@ -127,7 +139,7 @@ provide your custom AutoComplete Rendering for each Item.
 - **self:HintResult**: ignore for now
 - **data:Completion**:
 
-```
+```typescript
 export interface Completion{
     value:string | Object; // Your value as text, Object if your custom AutoCompleteHandler return Object
     type?:string;    // "catetory" or "value" or "operator" or "literal"
@@ -146,7 +158,7 @@ register with system you want to handle this by yourself.
 This method will return another function ** (value:string):void **, which you can call it
  and provide the value will be inserted into query.
 
- You can look into file demo3.tsx for detail
+ You can look into file [demo3.js](https://github.com/nhabuiduc/react-filter-box/blob/master/js-example/src/demo3.js) for detail
 
  **autoCompleteHandler: BaseAutoCompleteHandler**
 
