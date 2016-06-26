@@ -5,7 +5,7 @@ import {Table, Column, Cell} from 'fixed-data-table';
 import "fixed-data-table/dist/fixed-data-table.min.css";
 import data from "./data";
 
-import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing,Expression} from "react-filter-box";
+import ReactFilterBox, {SimpleResultProcessing,Expression} from "react-filter-box";
 
 export default class Demo1 extends React.Component {
     

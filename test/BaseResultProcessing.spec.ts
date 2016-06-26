@@ -145,78 +145,119 @@ describe("#BaseResultProcessing",()=>{
             expect(result.length).to.eq(0);            
         })
 
-        it("should process in correct order with complex strucuter", ()=>{
+        describe("with complex structure", ()=>{
+
             var expressions = JSON.parse(`[
-   {
-      "category":"c1",
-      "operator":"==",
-      "value":"v1"
-   },
-   {
-      "expressions":[
-         {
-            "expressions":[
-               {
-                  "expressions":[
-                     {
-                        "category":"c2",
+            {
+                "category":"c1",
+                "operator":"==",
+                "value":"v1"
+            },
+            {
+                "expressions":[
+                    {
+                        "expressions":[
+                        {
+                            "expressions":[
+                                {
+                                    "category":"c2",
+                                    "operator":"==",
+                                    "value":"v2"
+                                }
+                            ]
+                        }
+                        ]
+                    },
+                    {
+                        "category":"c3",
                         "operator":"==",
-                        "value":"v2"
-                     }
-                  ]
-               }
-            ]
-         },
-         {
-            "category":"c3",
-            "operator":"==",
-            "value":"v3",
-            "conditionType":"OR"
-         },
-         {
-            "expressions":[
-               {
-                  "expressions":[
-                     {
-                        "category":"c4",
-                        "operator":"==",
-                        "value":"v4"
-                     }
-                  ]
-               },
-               {
-                  "expressions":[
-                     {
-                        "category":"c5",
-                        "operator":"==",
-                        "value":"v5"
-                     }
-                  ],
-                  "conditionType":"AND"
-               }
-            ],
-            "conditionType":"OR"
-         }
-      ],
-      "conditionType":"AND"
-   }
-]`);
-
-            filterStub.onCall(0).returns(true);
-            filterStub.onCall(1).returns(false);
-            filterStub.onCall(2).returns(false);
-            filterStub.onCall(3).returns(true);
-            filterStub.onCall(4).returns(false);
-
-            var result = processing.process(data,expressions); 
+                        "value":"v3",
+                        "conditionType":"OR"
+                    },
+                    {
+                        "expressions":[
+                        {
+                            "expressions":[
+                                {
+                                    "category":"c4",
+                                    "operator":"==",
+                                    "value":"v4"
+                                }
+                            ]
+                        },
+                        {
+                            "expressions":[
+                                {
+                                    "category":"c5",
+                                    "operator":"==",
+                                    "value":"v5"
+                                }
+                            ],
+                            "conditionType":"AND"
+                        }
+                        ],
+                        "conditionType":"OR"
+                    }
+                ],
+                "conditionType":"AND"
+            }
+            ]`);
             
-            expect(filterStub.callCount).to.eq(5);            
-            expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;
-            expect(filterStub.getCall(1).calledWith(sinon.match.any,"c2","==","v2")).to.be.true;
-            expect(filterStub.getCall(2).calledWith(sinon.match.any,"c3","==","v3")).to.be.true;
-            expect(filterStub.getCall(3).calledWith(sinon.match.any,"c4","==","v4")).to.be.true;
-            expect(filterStub.getCall(4).calledWith(sinon.match.any,"c5","==","v5")).to.be.true;
+             it("should process in correct order ", ()=>{
+        
+                filterStub.onCall(0).returns(true);
+                filterStub.onCall(1).returns(false);
+                filterStub.onCall(2).returns(false);
+                filterStub.onCall(3).returns(true);
+                filterStub.onCall(4).returns(false);
 
+                var result = processing.process(data,expressions); 
+                
+                expect(filterStub.callCount).to.eq(5);            
+                expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;
+                expect(filterStub.getCall(1).calledWith(sinon.match.any,"c2","==","v2")).to.be.true;
+                expect(filterStub.getCall(2).calledWith(sinon.match.any,"c3","==","v3")).to.be.true;
+                expect(filterStub.getCall(3).calledWith(sinon.match.any,"c4","==","v4")).to.be.true;
+                expect(filterStub.getCall(4).calledWith(sinon.match.any,"c5","==","v5")).to.be.true;
+
+            })
+
+            it("should stop at first condition if result is false in 'AND' condition ", ()=>{
+        
+                filterStub.onCall(0).returns(false);                
+
+                var result = processing.process(data,expressions); 
+                
+                expect(filterStub.callCount).to.eq(1);            
+                expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;                
+            })
+
+            it("should stop at first condition if result is true  in 'OR' condition ", ()=>{
+        
+                filterStub.onCall(0).returns(true);         
+                filterStub.onCall(1).returns(true);                
+
+                var result = processing.process(data,expressions); 
+                
+                expect(filterStub.callCount).to.eq(2);            
+                expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;
+                expect(filterStub.getCall(1).calledWith(sinon.match.any,"c2","==","v2")).to.be.true;                
+            })
+
+            it("should apply condition with nested structure correctly ", ()=>{
+        
+                filterStub.onCall(0).returns(true);
+                filterStub.onCall(1).returns(false);
+                filterStub.onCall(2).returns(false);
+                filterStub.onCall(3).returns(true);
+                filterStub.onCall(4).returns(true);                
+
+                var result = processing.process(data,expressions); 
+                
+                 expect(result[0].field).to.eq("value");                 
+            })
         })
+
+       
     });
 })
