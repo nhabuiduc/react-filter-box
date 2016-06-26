@@ -40,7 +40,7 @@ Demo: https://nhabuiduc.github.io , which includes source code.
 Simple case:
 
 ```javascript
-import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing} from "react-filter-box";
+import ReactFilterBox, {SimpleResultProcessing} from "react-filter-box";
 import "react-filter-box/lib/react-filter-box.css"
 
 
@@ -125,7 +125,7 @@ interface Expression {
 ```
 
 to see more about the structure of Expression which parsed from query, please
-take a look at: [unit test](https://github.com/nhabuiduc/react-filter-box/blob/master/test/FilterQueryParser.spec.ts)
+take a look at: [unit test](https://github.com/nhabuiduc/react-filter-box/blob/master/test/FilterQUeryParser.spec.ts)
 
 **onParseOk(expressions:Expression[])**: event raised when parsing is ok
 
