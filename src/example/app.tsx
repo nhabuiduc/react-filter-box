@@ -8,9 +8,9 @@ import data from "./data";
 import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing,Expression} from "../ReactFilterBox";
 import "../ReactFilterBox.less";
 import "./app.less";
-import Demo1 from "./Demo1";
-import Demo2 from "./Demo2";
-import Demo3 from "./Demo3";
+import Demo1 from "./demo1";
+import Demo2 from "./demo2";
+import Demo3 from "./demo3";
 
 export default class App extends React.Component<any,any> {
     
