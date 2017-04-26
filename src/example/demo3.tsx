@@ -87,7 +87,7 @@ export default class Demo3 extends React.Component<any, any> {
     customRenderCompletionItem(self: any, data: any, registerAndGetPickFunc: any) {
         if(!_.isString(data.value)){
             var pick = registerAndGetPickFunc();
-            return  <div className="day-picker-selection"  ><DayPicker onDayClick={ (e:any,day:any) => pick(day.toLocaleDateString())  }/> </div>
+            return  <div className="day-picker-selection"  ><DayPicker onDayClick={ (day:any) => pick(day.toLocaleDateString())  }/> </div>
         }
         
         var className = ` hint-value cm-${data.type}`

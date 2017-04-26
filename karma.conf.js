@@ -23,7 +23,10 @@ module.exports = function (config) {
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
             },
-            
+
+        },
+        mime: {
+        'text/x-typescript': ['ts','tsx']
         },
         reporters: ['progress'],
         port: 9876,

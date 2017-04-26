@@ -88,7 +88,7 @@ export default class Demo3 extends React.Component {
         if(!_.isString(data.value)){
             var pick = registerAndGetPickFunc();
             return  <div className="day-picker-selection"  >
-                <DayPicker onDayClick={ (e,day) => pick(day.toLocaleDateString())  }/> </div>
+                <DayPicker onDayClick={ (day) => pick(day.toLocaleDateString())  }/> </div>
         }
         
         var className = ` hint-value cm-${data.type}`

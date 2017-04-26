@@ -3,6 +3,7 @@ import * as PEG from "pegjs";
 
 import {ExtendedParser} from "./FilterQueryParser";
 import {HintInfo} from "./models/ExtendedCodeMirror";
+import ParseTrace from "./ParseTrace";
 
 export default class BaseAutoCompleteHandler {
     constructor() {
@@ -33,13 +34,14 @@ export default class BaseAutoCompleteHandler {
             }
     }
 
-    handleParseError(parser: ExtendedParser, error: PEG.PegjsError):HintInfo[] {
+    handleParseError(parser: ExtendedParser, parseTrace: ParseTrace, error: PEG.PegjsError):HintInfo[] {
 
-        var trace = parser.parseTrace;
+        var trace = parseTrace;
+        console.log("error: ", error);
         return _.flatMap(error.expected, (f: PEG.ExpectedItem) => {
             var result:HintInfo[] = [];
             if (f.type == "literal") {
-                result= _.map([f.value],f=> { return { value:f, type:"literal" } });
+                result= _.map([f.text],f=> { return { value:f, type:"literal" } });
             }
 
             if (f.type == "other") {

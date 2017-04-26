@@ -6,14 +6,16 @@ import Expression from "../src/Expression";
 describe("#FilterQueryParser",()=>{
     var parser:FilterQueryParser;
      beforeEach(()=>{
+         
         parser = new FilterQueryParser();
 
     })
 
     function assertExpression(expression:Expression, category:string,operator:string,value:string){
         expect(expression.category).to.eq(category);
-            expect(expression.operator).to.eq(operator);
-            expect(expression.value).to.eq(value); 
+        expect(expression.operator).to.eq(operator);
+        expect(expression.value).to.eq(value); 
+            
     }
 
     describe("#parse", ()=>{

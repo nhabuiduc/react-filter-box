@@ -2,6 +2,7 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "removeComments": true,
+        "skipLibCheck": true,
         "jsx" : "react"
         // "allowSyntheticDefaultImports":true
     },

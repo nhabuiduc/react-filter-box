@@ -162,7 +162,20 @@ This method will return another function ** (value:string):void **, which you ca
 
  **autoCompleteHandler: BaseAutoCompleteHandler**
 
- -- tobe continue;
+## How to build this project
+
+This project is built on Typescripts so you need to install:
+- [Typings](https://www.npmjs.com/package/typings) (globally)
+
+``` npm install typings ```
+
+-  
+
+
+
+
+
+ 
 
 ##License:  
 [MIT](https://github.com/nhabuiduc/react-filter-box/blob/master/LICENSE.md)

@@ -22,17 +22,21 @@ describe("#BaseResultProcessing",()=>{
             category:category || "category",
             operator:operator || "operator",
             value:value || "value",
-            expressions: nestedExpressions
+            expressions: nestedExpressions 
         }
     }
 
-    describe("#process",()=>{
+    describe("#process",()=>{ 
         it("should process ok with result empty", ()=>{
+
+
                   
             var result = processing.process(data,[]);
             expect(filterStub.calledWith(sinon.match.any,"category","operator","value")).to.be.false;
 
-            expect(result[0].field).to.eq("value");            
+            expect(result[0].field).to.eq("value");   
+            
+                     
         })
 
         it("should process ok with expression has only one condition", ()=>{

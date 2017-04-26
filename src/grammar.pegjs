@@ -5,6 +5,10 @@
  * Accepts expressions like: nha == nhat AND (nhat == nha or "nhat " contains "tt") OR nhat == "test"
  */
 
+{
+  var parseTrace = options.parseTrace;
+}
+
 Expression
   = _ head:Condition tail:(ws ("AND"i / "OR"i) ws Condition)* _ {
       var result = [head]
@@ -37,21 +41,21 @@ ThreeFactorCondition
             } 
   
 Operator "operator"
-  = ValidToken+  { parser.parseTrace.pushOperator(text()); return text(); }
+  = ValidToken+  { parseTrace.pushOperator(text()); return text(); }
   
 
 ValidValue "value"
-  = ValidToken+ { parser.parseTrace.pushValue(text() ); return text(); }  
+  = ValidToken+ { parseTrace.pushValue(text() ); return text(); }  
   /"\"" name:[^\"]* "\"" {
         var value = name.join("");
-        parser.parseTrace.pushValue(value);
+        parseTrace.pushValue(value);
         return value;
       }
 ValidName  "category"
-  = ValidToken+ { parser.parseTrace.pushCategory(text() ); return text(); }  
+  = ValidToken+ { parseTrace.pushCategory(text() ); return text(); }  
   /"\"" name:[^\"]* "\"" {
         var value = name.join("");
-        parser.parseTrace.pushCategory(value);
+        parseTrace.pushCategory(value);
         return value;
       }
 ValidToken
