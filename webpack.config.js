@@ -5,6 +5,7 @@ var commonConfig = require("./webpack.common.config");
 
 var config = _.assign(commonConfig, {
   devtool: 'eval',
+  mode: "development",
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',

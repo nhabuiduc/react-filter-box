@@ -5,6 +5,7 @@ var commonConfig = require("./webpack.common.config");
 
 var config = _.assign(commonConfig, {
   devtool: 'source-map',
+  mode: "'production",
   entry: [
     './src/example/index.tsx'
   ],

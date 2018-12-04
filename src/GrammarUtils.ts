@@ -5,7 +5,7 @@ class GrammarUtils {
         return c == " " || c == "\r" || c == "\n" || c == "\t" || c == "(" || c == ")";
     }
 
-    isWhiteSpace(c:string) {
+    isWhiteSpace(c: string) {
         return c == " " || c == "\r" || c == "\n" || c == "\t";
     }
 
@@ -17,8 +17,8 @@ class GrammarUtils {
         return !(char == "(");
     }
 
-    isLastCharacterWhiteSpace(text:string){
-        return !!text && this.isWhiteSpace(text[text.length - 1]); 
+    isLastCharacterWhiteSpace(text: string) {
+        return !!text && this.isWhiteSpace(text[text.length - 1]);
     }
 
     stripEndWithNonSeparatorCharacters(text: string) {
@@ -30,7 +30,7 @@ class GrammarUtils {
 
         var index = this.findLastSeparatorIndex(text);
         if (index < 0) return "";
-        return text.substr(0, index + 1) ;
+        return text.substr(0, index + 1);
     }
 
     getEndNotSeparatorCharacers(text: string) {

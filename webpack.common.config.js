@@ -3,16 +3,16 @@ var webpack = require('webpack');
 
 module.exports = {
   resolve: {
-    extensions: ['.ts','.tsx', '.webpack.js', '.web.js', '.js']
+    extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
   },
-  module: {    
-    loaders: [    
-    {
-        test: [/\.ts$/,/\.tsx$/],
-        loaders: ['react-hot-loader','awesome-typescript-loader']
+  module: {
+    rules: [
+      {
+        test: [/\.ts$/, /\.tsx$/],
+        loaders: ['awesome-typescript-loader']
       },
       {
-        test: [/\.less$/,/\.css$/],
+        test: [/\.less$/, /\.css$/],
         loader: "style-loader!css-loader!less-loader"
       }]
   }

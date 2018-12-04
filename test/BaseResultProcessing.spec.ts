@@ -2,154 +2,150 @@ import * as React from "react";
 import { expect } from 'chai';
 import BaseResultProcessing from "../src/BaseResultProcessing";
 import Expression from "../src/Expression";
+import sinon = require("sinon");
 
-describe("#BaseResultProcessing",()=>{
-    var processing: BaseResultProcessing ;
-    var object1 = {field:"value"}
+describe("#BaseResultProcessing", () => {
+    var processing: BaseResultProcessing;
+    var object1 = { field: "value" }
     var data = [object1];
-    var filterStub: Sinon.SinonStub;
-    beforeEach(()=>{
+    var filterStub: sinon.SinonStub;
+    beforeEach(() => {
         processing = new BaseResultProcessing();
         filterStub = sinon.stub();
-        
+
         processing.filter = filterStub;
 
     })
 
-    function buildExpression(conditionType?:"OR"|"AND", category?:string,operator?:string,value?:string, nestedExpressions?:Expression[]):Expression {
+    function buildExpression(conditionType?: "OR" | "AND", category?: string, operator?: string, value?: string, nestedExpressions?: Expression[]): Expression {
         return {
             conditionType: conditionType,
-            category:category || "category",
-            operator:operator || "operator",
-            value:value || "value",
-            expressions: nestedExpressions 
+            category: category || "category",
+            operator: operator || "operator",
+            value: value || "value",
+            expressions: nestedExpressions
         }
     }
 
-    describe("#process",()=>{ 
-        it("should process ok with result empty", ()=>{
+    describe("#process", () => {
+        it("should process ok with result empty", () => {
+            var result = processing.process(data, []);
+            expect(filterStub.calledWith(sinon.match.any, "category", "operator", "value")).to.be.false;
 
-
-                  
-            var result = processing.process(data,[]);
-            expect(filterStub.calledWith(sinon.match.any,"category","operator","value")).to.be.false;
-
-            expect(result[0].field).to.eq("value");   
-            
-                     
+            expect(result[0].field).to.eq("value");
         })
 
-        it("should process ok with expression has only one condition", ()=>{
+        it("should process ok with expression has only one condition", () => {
             var expression = buildExpression();
             filterStub.returns(true);
 
-            var result = processing.process(data,[expression]);
-            
-            expect(filterStub.calledWith(sinon.match.any,"category","operator","value")).to.be.true;
+            var result = processing.process(data, [expression]);
+
+            expect(filterStub.calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
             expect(filterStub.callCount).to.eq(1);
 
-            expect(result[0].field).to.eq("value");            
+            expect(result[0].field).to.eq("value");
         })
 
-        it("should process ok with expression has in one level of bracket", ()=>{
-            var expression:Expression = {
+        it("should process ok with expression has in one level of bracket", () => {
+            var expression: Expression = {
                 expressions: [buildExpression()]
             }
             filterStub.returns(true);
 
-            var result = processing.process(data,[expression]);
-            
-            expect(filterStub.calledWith(sinon.match.any,"category","operator","value")).to.be.true;
+            var result = processing.process(data, [expression]);
+
+            expect(filterStub.calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
             expect(filterStub.callCount).to.eq(1);
 
-            expect(result[0].field).to.eq("value");            
+            expect(result[0].field).to.eq("value");
         })
 
-        it("should process ok with expression has in 2 level of bracket", ()=>{
-            var expression:Expression = {
+        it("should process ok with expression has in 2 level of bracket", () => {
+            var expression: Expression = {
                 expressions: [{
-                    expressions:[buildExpression()]
+                    expressions: [buildExpression()]
                 }]
             }
             filterStub.returns(true);
 
-            var result = processing.process(data,[expression]);
-            
-            expect(filterStub.calledWith(sinon.match.any,"category","operator","value")).to.be.true;
+            var result = processing.process(data, [expression]);
+
+            expect(filterStub.calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
             expect(filterStub.callCount).to.eq(1);
 
-            expect(result[0].field).to.eq("value");            
+            expect(result[0].field).to.eq("value");
         })
 
-         it("should process in correct order and operator with 2 expressions", ()=>{
-            var expressions:Expression[] = [buildExpression(),buildExpression("OR","c1","!=","v1")];
+        it("should process in correct order and operator with 2 expressions", () => {
+            var expressions: Expression[] = [buildExpression(), buildExpression("OR", "c1", "!=", "v1")];
             filterStub.onCall(0).returns(false);
             filterStub.onCall(1).returns(true);
 
-            var result = processing.process(data,expressions); 
-            
-            expect(filterStub.callCount).to.eq(2);
-            expect(filterStub.getCall(0).calledWith(sinon.match.any,"category","operator","value")).to.be.true;
-            expect(filterStub.getCall(1).calledWith(sinon.match.any,"c1","!=","v1")).to.be.true;
+            var result = processing.process(data, expressions);
 
-            expect(result[0].field).to.eq("value");            
+            expect(filterStub.callCount).to.eq(2);
+            expect(filterStub.getCall(0).calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
+            expect(filterStub.getCall(1).calledWith(sinon.match.any, "c1", "!=", "v1")).to.be.true;
+
+            expect(result[0].field).to.eq("value");
         })
 
-        it("should process in correct order and operator with 2 expressions in bracket", ()=>{
-            var expressions:Expression[] = [{
-                expressions: [buildExpression(),buildExpression("OR","c1","!=","v1")]
+        it("should process in correct order and operator with 2 expressions in bracket", () => {
+            var expressions: Expression[] = [{
+                expressions: [buildExpression(), buildExpression("OR", "c1", "!=", "v1")]
             }];
             filterStub.onCall(0).returns(false);
             filterStub.onCall(1).returns(false);
 
-            var result = processing.process(data,expressions); 
-            
-            expect(filterStub.callCount).to.eq(2);
-            expect(filterStub.getCall(0).calledWith(sinon.match.any,"category","operator","value")).to.be.true;
-            expect(filterStub.getCall(1).calledWith(sinon.match.any,"c1","!=","v1")).to.be.true;
+            var result = processing.process(data, expressions);
 
-            expect(result.length).to.eq(0);            
+            expect(filterStub.callCount).to.eq(2);
+            expect(filterStub.getCall(0).calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
+            expect(filterStub.getCall(1).calledWith(sinon.match.any, "c1", "!=", "v1")).to.be.true;
+
+            expect(result.length).to.eq(0);
         })
 
-        it("should process in correct order and operator with 2 expressions in double level bracket", ()=>{
-            var expressions:Expression[] = [{
-                expressions:[{
-                    expressions: [buildExpression(),buildExpression("OR","c1","!=","v1")]
+        it("should process in correct order and operator with 2 expressions in double level bracket", () => {
+            var expressions: Expression[] = [{
+                expressions: [{
+                    expressions: [buildExpression(), buildExpression("OR", "c1", "!=", "v1")]
                 }]
             }];
             filterStub.onCall(0).returns(false);
             filterStub.onCall(1).returns(false);
 
-            var result = processing.process(data,expressions); 
-            
-            expect(filterStub.callCount).to.eq(2);
-            expect(filterStub.getCall(0).calledWith(sinon.match.any,"category","operator","value")).to.be.true;
-            expect(filterStub.getCall(1).calledWith(sinon.match.any,"c1","!=","v1")).to.be.true;
+            var result = processing.process(data, expressions);
 
-            expect(result.length).to.eq(0);            
+            expect(filterStub.callCount).to.eq(2);
+            expect(filterStub.getCall(0).calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
+            expect(filterStub.getCall(1).calledWith(sinon.match.any, "c1", "!=", "v1")).to.be.true;
+
+            expect(result.length).to.eq(0);
         })
 
-         it("should process in correct order with 3 expressions", ()=>{
-            var expressions:Expression[] = [buildExpression(),{
-                conditionType:"AND",
-                expressions:[buildExpression(undefined, "c1","!=","v1"),buildExpression("OR", "c2","!=","v2")]
+        it("should process in correct order with 3 expressions", () => {
+            var expressions: Expression[] = [buildExpression(), {
+                conditionType: "AND",
+                expressions: [buildExpression(undefined, "c1", "!=", "v1"), buildExpression("OR", "c2", "!=", "v2")]
             }];
 
             filterStub.onCall(0).returns(true);
             filterStub.onCall(1).returns(false);
             filterStub.onCall(2).returns(false);
 
-            var result = processing.process(data,expressions); 
-            
-            expect(filterStub.callCount).to.eq(3);
-            expect(filterStub.getCall(0).calledWith(sinon.match.any,"category","operator","value")).to.be.true;
-            expect(filterStub.getCall(1).calledWith(sinon.match.any,"c1","!=","v1")).to.be.true;
-            expect(filterStub.getCall(2).calledWith(sinon.match.any,"c2","!=","v2")).to.be.true;
+            var result = processing.process(data, expressions);
 
-            expect(result.length).to.eq(0);            
+            expect(filterStub.callCount).to.eq(3);
+            expect(filterStub.getCall(0).calledWith(sinon.match.any, "category", "operator", "value")).to.be.true;
+            expect(filterStub.getCall(1).calledWith(sinon.match.any, "c1", "!=", "v1")).to.be.true;
+            expect(filterStub.getCall(2).calledWith(sinon.match.any, "c2", "!=", "v2")).to.be.true;
+
+            expect(result.length).to.eq(0);
         })
 
-        describe("with complex structure", ()=>{
+        describe("with complex structure", () => {
 
             var expressions = JSON.parse(`[
             {
@@ -206,62 +202,62 @@ describe("#BaseResultProcessing",()=>{
                 "conditionType":"AND"
             }
             ]`);
-            
-             it("should process in correct order ", ()=>{
-        
+
+            it("should process in correct order ", () => {
+
                 filterStub.onCall(0).returns(true);
                 filterStub.onCall(1).returns(false);
                 filterStub.onCall(2).returns(false);
                 filterStub.onCall(3).returns(true);
                 filterStub.onCall(4).returns(false);
 
-                var result = processing.process(data,expressions); 
-                
-                expect(filterStub.callCount).to.eq(5);            
-                expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;
-                expect(filterStub.getCall(1).calledWith(sinon.match.any,"c2","==","v2")).to.be.true;
-                expect(filterStub.getCall(2).calledWith(sinon.match.any,"c3","==","v3")).to.be.true;
-                expect(filterStub.getCall(3).calledWith(sinon.match.any,"c4","==","v4")).to.be.true;
-                expect(filterStub.getCall(4).calledWith(sinon.match.any,"c5","==","v5")).to.be.true;
+                var result = processing.process(data, expressions);
+
+                expect(filterStub.callCount).to.eq(5);
+                expect(filterStub.getCall(0).calledWith(sinon.match.any, "c1", "==", "v1")).to.be.true;
+                expect(filterStub.getCall(1).calledWith(sinon.match.any, "c2", "==", "v2")).to.be.true;
+                expect(filterStub.getCall(2).calledWith(sinon.match.any, "c3", "==", "v3")).to.be.true;
+                expect(filterStub.getCall(3).calledWith(sinon.match.any, "c4", "==", "v4")).to.be.true;
+                expect(filterStub.getCall(4).calledWith(sinon.match.any, "c5", "==", "v5")).to.be.true;
 
             })
 
-            it("should stop at first condition if result is false in 'AND' condition ", ()=>{
-        
-                filterStub.onCall(0).returns(false);                
+            it("should stop at first condition if result is false in 'AND' condition ", () => {
 
-                var result = processing.process(data,expressions); 
-                
-                expect(filterStub.callCount).to.eq(1);            
-                expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;                
+                filterStub.onCall(0).returns(false);
+
+                var result = processing.process(data, expressions);
+
+                expect(filterStub.callCount).to.eq(1);
+                expect(filterStub.getCall(0).calledWith(sinon.match.any, "c1", "==", "v1")).to.be.true;
             })
 
-            it("should stop at first condition if result is true  in 'OR' condition ", ()=>{
-        
-                filterStub.onCall(0).returns(true);         
-                filterStub.onCall(1).returns(true);                
+            it("should stop at first condition if result is true  in 'OR' condition ", () => {
 
-                var result = processing.process(data,expressions); 
-                
-                expect(filterStub.callCount).to.eq(2);            
-                expect(filterStub.getCall(0).calledWith(sinon.match.any,"c1","==","v1")).to.be.true;
-                expect(filterStub.getCall(1).calledWith(sinon.match.any,"c2","==","v2")).to.be.true;                
+                filterStub.onCall(0).returns(true);
+                filterStub.onCall(1).returns(true);
+
+                var result = processing.process(data, expressions);
+
+                expect(filterStub.callCount).to.eq(2);
+                expect(filterStub.getCall(0).calledWith(sinon.match.any, "c1", "==", "v1")).to.be.true;
+                expect(filterStub.getCall(1).calledWith(sinon.match.any, "c2", "==", "v2")).to.be.true;
             })
 
-            it("should apply condition with nested structure correctly ", ()=>{
-        
+            it("should apply condition with nested structure correctly ", () => {
+
                 filterStub.onCall(0).returns(true);
                 filterStub.onCall(1).returns(false);
                 filterStub.onCall(2).returns(false);
                 filterStub.onCall(3).returns(true);
-                filterStub.onCall(4).returns(true);                
+                filterStub.onCall(4).returns(true);
 
-                var result = processing.process(data,expressions); 
-                
-                 expect(result[0].field).to.eq("value");                 
+                var result = processing.process(data, expressions);
+
+                expect(result[0].field).to.eq("value");
             })
         })
 
-       
+
     });
 })

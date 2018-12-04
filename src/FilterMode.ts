@@ -1,15 +1,13 @@
 import * as CodeMirror from "codemirror";
 
 CodeMirror.defineMode<ModeState>("filter-mode", function (config: CodeMirror.EditorConfiguration, modeOptions?: any) {
-
-
-    function getNextFieldState(fieldState:FieldStates) {
+    function getNextFieldState(fieldState: FieldStates) {
         if (fieldState == FieldStates.category) return FieldStates.operator;
         if (fieldState == FieldStates.operator) return FieldStates.value;
         if (fieldState == FieldStates.value) return FieldStates.category;
     }
 
-    function setNextFieldState(state:ModeState):string {
+    function setNextFieldState(state: ModeState): string {
         var nextFieldState = getNextFieldState(state.fieldState);
         var currentFieldState = state.fieldState;
 
@@ -18,7 +16,7 @@ CodeMirror.defineMode<ModeState>("filter-mode", function (config: CodeMirror.Edi
         return currentFieldState.toString();
     }
 
-    function isEmpty(char:string) {
+    function isEmpty(char: string) {
         return char == " " || char == "\r" || char == "\n" || char == "\t";
     }
 
@@ -29,19 +27,19 @@ CodeMirror.defineMode<ModeState>("filter-mode", function (config: CodeMirror.Edi
                 fieldState: FieldStates.category
             };
         },
-        token: function (stream:CodeMirror.StringStream, state:ModeState):string {
-            
-            if(isEmpty(stream.peek())){
+        token: function (stream: CodeMirror.StringStream, state: ModeState): string {
+
+            if (isEmpty(stream.peek())) {
                 stream.eatSpace();
-                return null;    
-            }            
-            
+                return null;
+            }
+
             if (stream.peek() == "(" || stream.peek() == ")") {
                 stream.next();
                 return "bracket";
             }
-            
-            if(stream.match("AND", true, true) || stream.match("OR", true,true)) {
+
+            if (stream.match("AND", true, true) || stream.match("OR", true, true)) {
                 return "condition"
             }
 
@@ -63,19 +61,19 @@ CodeMirror.defineMode<ModeState>("filter-mode", function (config: CodeMirror.Edi
 
             stream.eatWhile(/[^\r\n\t\s\(\)]+/)
             return setNextFieldState(state);
-            
+
         }
     };
 });
 
-class FieldStates  {
-        static none = "none";
-        static category = "category";
-        static operator = "operator";
-        static value = "value";
-    }
+class FieldStates {
+    static none = "none";
+    static category = "category";
+    static operator = "operator";
+    static value = "value";
+}
 
-interface ModeState{
-    inString:boolean;
+interface ModeState {
+    inString: boolean;
     fieldState: FieldStates;
 }
