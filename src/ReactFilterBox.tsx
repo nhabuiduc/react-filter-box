@@ -10,7 +10,6 @@ import BaseResultProcessing from "./BaseResultProcessing";
 import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
 import ParsedError from "./ParsedError";
 
-
 export default class ReactFilterBox extends React.Component<any, any> {
 
     public static defaultProps: any = {

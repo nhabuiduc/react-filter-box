@@ -24,7 +24,7 @@ export default class AutoCompletePopup {
 
     }
 
-    processText(value: string | Object): any | Object {
+    private processText(value: string | Object): any | Object {
         if (!_.isString(value)) {
             return value;
         }
@@ -35,21 +35,22 @@ export default class AutoCompletePopup {
         return value;
     }
 
-    onPick(cm: ExtendedCodeMirror, self: HintResult, data: Completion) {
+    private onPick(cm: ExtendedCodeMirror, self: HintResult, data: Completion) {
         var value = data.value;
         if (this.pick) {
             value = this.pick(cm, self, data);
         }
+
+        if (typeof value !== "string") {
+            return;
+        }
+
         cm.replaceRange(this.processText(value), self.from, self.to, "complete");
     }
 
-
-
-    renderHintElement(element: any, self: HintResult, data: Completion) {
+    private renderHintElement(element: any, self: HintResult, data: Completion) {
         var div = document.createElement("div");
         var className = ` hint-value cm-${data.type}`;
-
-
         var registerAndGetPickFunc = () => {
 
             //hack with show-hint code mirror https://github.com/codemirror/CodeMirror/blob/master/addon/hint/show-hint.js
@@ -72,7 +73,7 @@ export default class AutoCompletePopup {
         element.appendChild(div);
     }
 
-    manualPick(self: HintResult, data: Completion, value: string) {
+    private manualPick(self: HintResult, data: Completion, value: string) {
         var completionControl = this.cm.state.completionActive;
         if (completionControl == null) return;
 
@@ -84,7 +85,7 @@ export default class AutoCompletePopup {
 
     }
 
-    buildComletionObj(info: HintInfo): Completion {
+    private buildComletionObj(info: HintInfo): Completion {
         return {
             value: info.value,
             type: info.type,
@@ -93,7 +94,7 @@ export default class AutoCompletePopup {
         };
     }
 
-    findLastSeparatorPositionWithEditor() {
+    private findLastSeparatorPositionWithEditor() {
         var doc = this.cm.getDoc();
         var currentCursor = doc.getCursor();
         var text = doc.getRange({ line: 0, ch: 0 }, currentCursor);
@@ -115,8 +116,7 @@ export default class AutoCompletePopup {
     }
 
 
-    createHintOption() {
-
+    private createHintOption() {
         var hintOptions = new HintOptions();
 
         hintOptions.hint = (() => {

@@ -32,26 +32,24 @@ export default class FilterQueryParser {
         }
     }
 
-    private parseQuery(query:string){
+    private parseQuery(query: string) {
         this.parseTrace.clear();
         return this.parser.parse(query, { parseTrace: this.parseTrace });
     }
 
     getSugessions(query: string): HintInfo[] {
-
+        console.log(query);
         query = grammarUtils.stripEndWithNonSeparatorCharacters(query);
-
         try {
-            
-            var result = this.parseQuery(query);
+            this.parseQuery(query);
             if (!query || grammarUtils.isLastCharacterWhiteSpace(query)) {
                 return _.map(["AND", "OR"], f => { return { value: f, type: "literal" } });
-
             }
 
             return [];
 
         } catch (ex) {
+            console.log(ex);
             return this.autoCompleteHandler.handleParseError(this.parser, this.parseTrace, ex);
         }
     }
