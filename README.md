@@ -10,7 +10,7 @@ For example: Column1 contains value1 AND (Column2 == Ok)
 
 Demo: https://nhabuiduc.github.io
 
-##Features:
+## Features:
 
 - Support Syntax Highlight
 - Support AutoComplete
@@ -18,7 +18,7 @@ Demo: https://nhabuiduc.github.io
 - Allow to custom AutoComplete rendering 
 - The result of filter is in Json format
 
-##Getting started:
+## Getting started:
 
 Install react-filter-box using npm.
 
@@ -29,7 +29,7 @@ Import library, and default stylesheet.
 ``import ReactFilterBox, {AutoCompleteOption,SimpleResultProcessing} from "react-filter-box";``   
 ``import "react-filter-box/lib/react-filter-box.css"``   
 
-##How to use:
+## How to use:
 
 
 Demo: https://nhabuiduc.github.io , which includes source code.
@@ -159,19 +159,11 @@ This method will return another function ** (value:string):void **, which you ca
 
  **autoCompleteHandler: BaseAutoCompleteHandler**
 
-## How to build this project
+## How to work this project
 
-This project is built on Typescripts so you need to install:
-- [Typings](https://www.npmjs.com/package/typings) (globally)
-
-``` npm install typings ```
-
--  
-
-
-
-
-
+- Run demo application ```yarn start```
+- Run test ```yarn test```
+- Package as library ```yarn component-package```
  
 
 ##License:  
