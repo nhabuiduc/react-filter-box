@@ -1,3 +1,21 @@
 {
-  "presets": ["es2015", "stage-0", "react"]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry",
+        "targets": {
+          "chrome": "40",
+          "firefox": "40",
+          "safari": "8",
+          "edge": "11",
+          "ie": "11"
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel"
+  ]
 }
