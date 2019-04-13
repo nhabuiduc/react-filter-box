@@ -40,7 +40,7 @@ export default class ReactFilterBox extends React.Component<any, any> {
     }
 
     needAutoCompleteValues(codeMirror: any, text: string) {
-        return this.parser.getSugessions(text);
+        return this.parser.getSuggestions(text);
     }
 
     onSubmit(query: string) {
