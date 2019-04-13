@@ -9,7 +9,7 @@ export default class SimpleResultProcessing extends BaseResultProcessing {
 
     tryToGetFieldCategory(fieldOrLabel: string) {
         var found = _.find(this.options, f => f.columnText == fieldOrLabel);
-        return found ? found.columField : fieldOrLabel;
+        return found ? found.columnField : fieldOrLabel;
     }
 
     filter(row: any, fieldOrLabel: string, operator: string, value: string) {
