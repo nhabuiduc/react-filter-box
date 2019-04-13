@@ -15,7 +15,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
 
         this.categories = _.map(this.options, f => {
             if (f.columnText) return f.columnText;
-            return f.columField
+            return f.columnField
         });
     }
 
@@ -27,7 +27,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
         // parsedCategory = this.tryToGetFieldCategory(parsedCategory);
         var found = _.find(this.options, f => {
             return f.customOperatorFunc != null && (
-                f.columnText == parsedCategory || f.columField == parsedCategory
+                f.columnText == parsedCategory || f.columnField == parsedCategory
             )
         })
 
@@ -40,7 +40,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
 
     needValues(parsedCategory: string, parsedOperator: string): any[] {
         // parsedCategory = this.tryToGetFieldCategory(parsedCategory);
-        var found = _.find(this.options, f => f.columField == parsedCategory || f.columnText == parsedCategory);
+        var found = _.find(this.options, f => f.columnField == parsedCategory || f.columnText == parsedCategory);
 
         if (found != null && found.type == "selection" && this.data != null) {
             if (!this.cache[parsedCategory]) {
@@ -58,7 +58,7 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
 }
 
 export interface Option {
-    columField: string;
+    columnField: string;
     columnText?: string;
     type: string;
     customOperatorFunc?: (category: string) => string[]

@@ -37,7 +37,7 @@ export default class FilterQueryParser {
         return this.parser.parse(query, { parseTrace: this.parseTrace });
     }
 
-    getSugessions(query: string): HintInfo[] {
+    getSuggestions(query: string): HintInfo[] {
         console.log(query);
         query = grammarUtils.stripEndWithNonSeparatorCharacters(query);
         try {

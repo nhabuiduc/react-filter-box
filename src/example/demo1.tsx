@@ -18,20 +18,20 @@ export default class Demo1 extends React.Component<any, any> {
 
         this.options = [
             {
-                columField: "Name",
+                columnField: "Name",
                 type: "text"
             },
             {
-                columField: "Description",
+                columnField: "Description",
                 type: "text"
             },
             {
-                columField: "Status",
+                columnField: "Status",
                 type: "selection"
             },
             {
                 columnText: "Email @",
-                columField: "Email",
+                columnField: "Email",
                 type: "text"
             }
         ];
