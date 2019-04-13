@@ -48,20 +48,20 @@ export default class App extends React.Component {
 
          this.options = [
             {
-                columField: "Name",
+                columnField: "Name",
                 type:"text"
             },
             {
-                columField: "Description",
+                columnField: "Description",
                 type:"text"
             },
             {
-                columField: "Status",
+                columnField: "Status",
                 type:"selection" // when using type selection, it will automatically sugest all posible values
             },
             {
                 columnText: "Email @",
-                columField: "Email",
+                columnField: "Email",
                 type:"text"
             }
         ];
@@ -97,7 +97,7 @@ export default class App extends React.Component {
 
 ```typescript
 export interface Option {
-    columField:string; // required
+    columnField:string; // required
     columnText?:string; // optional
     type: string; // require "text" or "selection"
 }

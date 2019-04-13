@@ -46,20 +46,20 @@ export default class Demo2 extends React.Component {
 
         this.options = [
             {
-                columField: "Name",
+                columnField: "Name",
                 type: "text"
             },
             {
-                columField: "Description",
+                columnField: "Description",
                 type: "text"
             },
             {
-                columField: "Status",
+                columnField: "Status",
                 type: "selection"
             },
             {
                 columnText: "Email @",
-                columField: "Email",
+                columnField: "Email",
                 type: "text"
             }
         ];
