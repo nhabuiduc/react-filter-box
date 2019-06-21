@@ -31,7 +31,6 @@ export default class BaseAutoCompleteHandler {
     handleParseError(parser: ExtendedParser, parseTrace: ParseTrace, error: PEG.PegjsError): HintInfo[] {
 
         var trace = parseTrace;
-        console.log("error: ", error);
         return _.flatMap(error.expected, (f: PEG.ExpectedItem) => {
             var result: HintInfo[] = [];
             if (f.type == "literal") {

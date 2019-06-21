@@ -38,7 +38,6 @@ export default class FilterQueryParser {
     }
 
     getSuggestions(query: string): HintInfo[] {
-        console.log(query);
         query = grammarUtils.stripEndWithNonSeparatorCharacters(query);
         try {
             this.parseQuery(query);
@@ -49,7 +48,6 @@ export default class FilterQueryParser {
             return [];
 
         } catch (ex) {
-            console.log(ex);
             return this.autoCompleteHandler.handleParseError(this.parser, this.parseTrace, ex);
         }
     }
