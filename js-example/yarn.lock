@@ -4132,10 +4132,10 @@ react-dom@^16.6.3:
     prop-types "^15.6.2"
     scheduler "^0.11.2"
 
-react-filter-box@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.npmjs.org/react-filter-box/-/react-filter-box-3.1.1.tgz#1b60b57e93af29052d61cb32b6a4da1a78a5f822"
-  integrity sha512-8BePn7QuPH6S7GC58GU084opojailLTgs2Dl6Zv0BLBiCFBlC32xFHpyFfyvBFxv9LHhNV9a1zukF+hK/BnI4Q==
+react-filter-box@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/react-filter-box/-/react-filter-box-3.2.0.tgz#03fdb49be8da46bff8d1d3701b321e9511890beb"
+  integrity sha512-CLk3qwmXLNu4tr+P/gB8WB5W0xy1xBoRd1/AAwFcFzeXNMtP5s87Yc9XlMFe6qRCOdtOlct8EZFpirUiL+65Vg==
   dependencies:
     codemirror "^5.42.0"
     lodash "^4.17.11"
