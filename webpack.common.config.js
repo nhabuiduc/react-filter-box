@@ -14,6 +14,11 @@ module.exports = {
       {
         test: [/\.less$/, /\.css$/],
         loader: "style-loader!css-loader!less-loader"
-      }]
+      },
+      {
+        test: /\.pegjs$/,
+        loader: "pegjs-loader"
+      }
+    ]
   }
 };
