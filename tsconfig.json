@@ -1,16 +1,18 @@
 {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "removeComments": true,
-        "skipLibCheck": true,
-        "jsx": "react"
-        // "allowSyntheticDefaultImports":true
-    },
-    "awesomeTypescriptLoaderOptions": {
-        /* ... */
-    },
-    "exclude": [
-        "node_modules",
-        "wwwroot"
-    ]
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "lib"
+    // "allowSyntheticDefaultImports":true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    /* ... */
+  },
+  "exclude": ["node_modules", "lib"]
 }

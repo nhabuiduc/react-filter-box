@@ -16,6 +16,7 @@
     "url": "https://github.com/nhabuiduc/react-filter-box"
   },
   "main": "lib/react-filter-box.js",
+  "types": "./lib/ReactFilterBox.d.ts",
   "keywords": [
     "react-component",
     "react",
