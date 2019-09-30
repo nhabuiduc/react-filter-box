@@ -1,6 +1,6 @@
 {
   "name": "react-filter-box",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Conditional filter supports OR/AND, bracket, Highlighting, Autocomplete, and high extensibility   ",
   "scripts": {
     "start": "node server.js",
@@ -16,7 +16,7 @@
     "url": "https://github.com/nhabuiduc/react-filter-box"
   },
   "main": "lib/react-filter-box.js",
-  "types": "./lib/ReactFilterBox.d.ts",
+  "types": "./lib/src/ReactFilterBox.d.ts",
   "keywords": [
     "react-component",
     "react",
