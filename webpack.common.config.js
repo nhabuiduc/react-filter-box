@@ -9,7 +9,7 @@ module.exports = {
     rules: [
       {
         test: [/\.ts$/, /\.tsx$/],
-        loaders: ['awesome-typescript-loader']
+        loaders: ['ts-loader']
       },
       {
         test: [/\.less$/, /\.css$/],
