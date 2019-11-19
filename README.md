@@ -106,6 +106,10 @@ export interface Option {
 you specify in **options** with **type = "selection"**, which it will
 show all posibles values get from data
 
+**editorConfig**: CodeMirror configuration options that will be passed through
+to the CodeMirror editor.  
+See https://codemirror.net/doc/manual.html#config
+
 ## Events
 
 **onChange(query: String, expressions: Expression[]|Error)**: event raised every change of 

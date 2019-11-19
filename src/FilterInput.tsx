@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from "lodash";
 import * as CodeMirror from "codemirror";
 import "codemirror/addon/hint/show-hint";
+import "codemirror/addon/display/placeholder";
 import "./FilterMode"
 import 'codemirror/lib/codemirror.css';
 import "codemirror/addon/hint/show-hint.css";
@@ -20,13 +21,14 @@ export default class FilterInput extends React.Component<any, any> {
     public static defaultProps: any = {
         onBlur: () => { },
         onFocus: () => { },
-
+        editorConfig: { }
     };
 
     constructor(props: any) {
         super(props);
-        this.options = {
-            mode: "filter-mode",
+
+        if (props.editorConfig) {
+            this.options = { ...props.editorConfig, mode: "filter-mode" }
         }
     }
 
