@@ -4137,10 +4137,10 @@ react-dom@^16.6.3:
     prop-types "^15.6.2"
     scheduler "^0.11.2"
 
-react-filter-box@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.npmjs.org/react-filter-box/-/react-filter-box-3.2.2.tgz#47638ec6f9c0403ef2a6cf542d1192517dd07d5a"
-  integrity sha512-GnHAb7zlkNrwVV8KbnLlvR5TcEZkpwcAHPHpVObmv+L85tbq3V8QCZ3VRNBzKNxKDGlGYM37kmlsRaK03XI5Rg==
+react-filter-box@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-filter-box/-/react-filter-box-3.3.0.tgz#e9b09e8e8f81a06c9e3580e5f54dc83b9f9953e1"
+  integrity sha512-q3eE3B7/7h7GOS/ETyBoEU3MfvvG2dVLAeb0R5qOHt3JzZeafOyH3DruImssvwwynC1muyzVQLIJLzjf6rmzNw==
   dependencies:
     codemirror "^5.42.0"
     lodash "^4.17.15"
@@ -5290,9 +5290,9 @@ websocket-driver@>=0.5.1:
     websocket-extensions ">=0.1.1"
 
 websocket-extensions@>=0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
-  integrity sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
+  integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
 
 whatwg-fetch@>=0.10.0:
   version "3.0.0"
