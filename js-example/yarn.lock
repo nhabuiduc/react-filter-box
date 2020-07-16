@@ -3134,15 +3134,10 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
-
-lodash@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.5:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loglevel@^1.4.1:
   version "1.6.1"
@@ -4137,10 +4132,10 @@ react-dom@^16.6.3:
     prop-types "^15.6.2"
     scheduler "^0.11.2"
 
-react-filter-box@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.npmjs.org/react-filter-box/-/react-filter-box-3.2.2.tgz#47638ec6f9c0403ef2a6cf542d1192517dd07d5a"
-  integrity sha512-GnHAb7zlkNrwVV8KbnLlvR5TcEZkpwcAHPHpVObmv+L85tbq3V8QCZ3VRNBzKNxKDGlGYM37kmlsRaK03XI5Rg==
+react-filter-box@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-filter-box/-/react-filter-box-3.3.0.tgz#e9b09e8e8f81a06c9e3580e5f54dc83b9f9953e1"
+  integrity sha512-q3eE3B7/7h7GOS/ETyBoEU3MfvvG2dVLAeb0R5qOHt3JzZeafOyH3DruImssvwwynC1muyzVQLIJLzjf6rmzNw==
   dependencies:
     codemirror "^5.42.0"
     lodash "^4.17.15"
