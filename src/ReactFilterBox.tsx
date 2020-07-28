@@ -63,15 +63,18 @@ export default class ReactFilterBox extends React.Component<any, any> {
     }
 
     onChange(query: string) {
+        var validationResult;
         var result = this.parser.parse(query);
-        if ((result as ParsedError).isError ||
-            (this.props.strictMode && !validateQuery(result as Expression[], this.parser.autoCompleteHandler).isValid)) {
-          this.setState({ isError: true })
+        if ((result as ParsedError).isError) {
+            this.setState({ isError: true })
+        } else if (this.props.strictMode) {
+          validationResult = validateQuery(result as Expression[], this.parser.autoCompleteHandler);
+          this.setState({ isError: !validationResult.isValid })
         } else {
           this.setState({ isError: false })
         }
 
-        this.props.onChange(query, result);
+        this.props.onChange(query, result, validationResult);
     }
 
     onBlur() {
