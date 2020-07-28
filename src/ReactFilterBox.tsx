@@ -9,6 +9,7 @@ import FilterQueryParser from "./FilterQueryParser";
 import BaseResultProcessing from "./BaseResultProcessing";
 import BaseAutoCompleteHandler from "./BaseAutoCompleteHandler";
 import ParsedError from "./ParsedError";
+import validateQuery from './validateQuery';
 
 export default class ReactFilterBox extends React.Component<any, any> {
 
@@ -20,7 +21,8 @@ export default class ReactFilterBox extends React.Component<any, any> {
         autoCompleteHandler: null,
         onBlur: () => { },
         onFocus: () => { },
-        editorConfig: { }
+        editorConfig: { },
+        strictMode: false
     };
 
     parser = new FilterQueryParser();
@@ -48,6 +50,13 @@ export default class ReactFilterBox extends React.Component<any, any> {
         var result = this.parser.parse(query);
         if ((result as ParsedError).isError) {
             return this.props.onParseError(result);
+        } else if (this.props.strictMode) {
+            const validationResult = validateQuery(result as Expression[], this.parser.autoCompleteHandler);
+            if (validationResult.isValid === false) {
+                const validationError = new Error(validationResult.message)
+                console.log(validationResult.message);
+                return this.props.onParseError(validationError);
+            }
         }
 
         return this.props.onParseOk(result);
@@ -55,10 +64,11 @@ export default class ReactFilterBox extends React.Component<any, any> {
 
     onChange(query: string) {
         var result = this.parser.parse(query);
-        if ((result as ParsedError).isError) {
-            this.setState({ isError: true })
+        if ((result as ParsedError).isError ||
+            (this.props.strictMode && !validateQuery(result as Expression[], this.parser.autoCompleteHandler).isValid)) {
+          this.setState({ isError: true })
         } else {
-            this.setState({ isError: false })
+          this.setState({ isError: false })
         }
 
         this.props.onChange(query, result);
