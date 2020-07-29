@@ -52,7 +52,9 @@ export default class ReactFilterBox extends React.Component<any, any> {
             return this.props.onParseError(result, { isValid: true });
         } else if (this.props.strictMode) {
             const validationResult = validateQuery(result as Expression[], this.parser.autoCompleteHandler);
-            return this.props.onParseError(result, validationResult);
+            if (!validationResult.isValid) {
+                return this.props.onParseError(result, validationResult);
+            }
         }
 
         return this.props.onParseOk(result);
@@ -64,10 +66,10 @@ export default class ReactFilterBox extends React.Component<any, any> {
         if ((result as ParsedError).isError) {
             this.setState({ isError: true })
         } else if (this.props.strictMode) {
-          validationResult = validateQuery(result as Expression[], this.parser.autoCompleteHandler);
-          this.setState({ isError: !validationResult.isValid })
+            validationResult = validateQuery(result as Expression[], this.parser.autoCompleteHandler);
+            this.setState({ isError: !validationResult.isValid })
         } else {
-          this.setState({ isError: false })
+            this.setState({ isError: false })
         }
 
         this.props.onChange(query, result, validationResult);

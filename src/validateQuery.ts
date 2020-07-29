@@ -16,12 +16,12 @@ const validateExpression = (
   const expressions = expression.expressions;
 
   if (expressions === undefined) {
-    if (autoCompleteHandler.needCategories().indexOf(expression.category) < 0) {
+    if (autoCompleteHandler.hasCategory(expression.category) === false) {
       result = {
         isValid: false,
         message: `Invalid category '${expression.category}' in expression ${expression.category} ${expression.operator} ${expression.value}`
       };
-    } else if (autoCompleteHandler.needOperators(expression.category).indexOf(expression.operator) < 0) {
+    } else if (autoCompleteHandler.hasOperator(expression.category, expression.operator) === false) {
       result = {
         isValid: false,
         message: `Invalid operator '${expression.operator}' in expression ${expression.category} ${expression.operator} ${expression.value}`
