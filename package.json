@@ -1,11 +1,12 @@
 {
-  "name": "react-filter-box",
-  "version": "3.3.0",
+  "name": "@adastradev/react-filter-box",
+  "version": "3.4.1",
   "description": "Conditional filter supports OR/AND, bracket, Highlighting, Autocomplete, and high extensibility   ",
   "scripts": {
     "start": "node server.js",
     "lint": "tslint ./src/**/*.tsx?",
     "test": "node --max-old-space-size=16000 ./node_modules/.bin/mocha-webpack --require ignore-styles -r jsdom-global/register --webpack-config webpack.test.config.js --watch \"./test/**/*.ts\"",
+    "test:windows": "node --max-old-space-size=16000 ./node_modules/mocha-webpack/bin/mocha-webpack --require ignore-styles -r jsdom-global/register --webpack-config webpack.test.config.js  --watch \"./test/**/*.ts\"",
     "dist": "webpack --config webpack.prod.config.js --progress -p",
     "component-package": "webpack --config webpack.component.config.js --progress -p && npm run less",
     "less": "lessc ./src/ReactFilterBox.less ./lib/react-filter-box.css",
@@ -70,8 +71,8 @@
     "react-test-renderer": "^16.6.3",
     "sinon": "^7.1.1",
     "style-loader": "^0.23.1",
-    "tslint": "^5.17.0",
     "ts-loader": "^6.2.1",
+    "tslint": "^5.17.0",
     "typescript": "^3.2.1",
     "webpack": "^4.27.0",
     "webpack-cli": "^3.1.2",
@@ -80,7 +81,7 @@
   },
   "dependencies": {
     "codemirror": "^5.42.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "pegjs": "^0.10.0",
     "react": "^16.6.3",
     "react-codemirror2": "^5.1.0",
