@@ -19,6 +19,18 @@ export default class GridDataAutoCompleteHandler extends BaseAutoCompleteHandler
         });
     }
 
+    hasCategory(category: string): boolean {
+      var found = _.find(this.options, f => {
+          return (category === f.columnField || category === f.columnText);
+      });
+
+      return found !== undefined;
+    } 
+
+    hasOperator(category: string, operator: string): boolean {
+        return this.needOperators(category).indexOf(operator) >= 0;
+    } 
+
     needCategories() {
         return this.categories;
     }

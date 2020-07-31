@@ -110,10 +110,14 @@ show all posibles values get from data
 to the CodeMirror editor.  
 See https://codemirror.net/doc/manual.html#config
 
+**strictMode: boolean** defaults to false.  Set to true to enforce that all categories and operators in the
+filter query are valid based on the options config.  This validation is applied after the query is successfully parsed.  When the onChange or onParseError events are raised the last argument will indicate if the filter is valid based and also indicate the first invalid item when the validation fails.
+
+
 ## Events
 
-**onChange(query: String, expressions: Expression[]|Error)**: event raised every change of 
-query, together with expressions if parse is ok, otherwise is error
+**onChange(query: String, expressions: Expression[]|Error, validationResult: { isValid: boolean, message?: string })**: event raised every change of query, together with expressions if parse is ok, otherwise is error.
+When strictMode is true, the validiationResult argument will indicate if the filter matches the options config,
 
 ```typescript
 interface Expression {
@@ -128,10 +132,12 @@ interface Expression {
 to see more about the structure of Expression which parsed from query, please
 take a look at: [unit test](https://github.com/nhabuiduc/react-filter-box/blob/master/test/FilterQUeryParser.spec.ts)
 
-**onParseOk(expressions:Expression[])**: event raised when parsing is ok
+**onParseOk(expressions:Expression[])**: event raised when parsing is ok.  When strictMode is true, this also indicates that all categories and operators are valid based on the options config.
 
 
-**onParseError(error:Error)**: event raised when parsing error
+**onParseError(error:Error, validationResult: { isValid: boolean, message?: string })**: 
+event raised when parsing error.  When strictMode is true, the validiationResult argument will indicate if the filter matches the options config,
+
 
 ## Custom Functions
 **customRenderCompletionItem(self:HintResult,data:Completion, registerAndGetPickFunc:Function): ReactComponent**:
