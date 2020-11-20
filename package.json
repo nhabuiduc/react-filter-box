@@ -84,7 +84,7 @@
     "lodash": "^4.17.19",
     "pegjs": "^0.10.0",
     "react": "^16.6.3",
-    "react-codemirror2": "^5.1.0",
+    "react-codemirror2": "6.0.1",
     "react-dom": "^16.6.3"
   },
   "resolutions": {
