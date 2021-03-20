@@ -75,12 +75,20 @@ export default class ReactFilterBox extends React.Component<any, any> {
         this.props.onChange(query, result, validationResult);
     }
 
-    onBlur() {
+    onBlur(event: any) {
+        const { onBlur } = this.props;
         this.setState({ isFocus: false });
+        if (onBlur) {
+            onBlur(event);
+        }
     }
 
-    onFocus() {
+    onFocus(event: any) {
+        const { onFocus } = this.props;
         this.setState({ isFocus: true });
+        if (onFocus) {
+            onFocus(event);
+        }
     }
 
     render() {
