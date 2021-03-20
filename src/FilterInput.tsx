@@ -46,6 +46,14 @@ export default class FilterInput extends React.Component<any, any> {
 
 
     private handlePressingAnyCharacter() {
+        if (this.autoCompletePopup.completionShow || !this.codeMirror.state.focused) {
+            return;
+        }
+
+        this.autoCompletePopup.show();
+    }
+
+    private handleFocus() {
         if (this.autoCompletePopup.completionShow) {
             return;
         }
@@ -85,7 +93,7 @@ export default class FilterInput extends React.Component<any, any> {
         })
 
         ref.editor.on("focus", (cm, e?) => {
-            this.handlePressingAnyCharacter();
+            this.handleFocus();
             this.props.onFocus(e);
         })
 
