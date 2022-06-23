@@ -59,7 +59,7 @@
     "enzyme": "^3.7.0",
     "fixed-data-table": "^0.6.5",
     "ignore-styles": "^5.0.1",
-    "jsdom": "^13.0.0",
+    "jsdom": "^16.5.0",
     "jsdom-global": "^3.0.2",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
