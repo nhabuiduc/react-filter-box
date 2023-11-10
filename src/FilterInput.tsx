@@ -76,7 +76,7 @@ export default class FilterInput extends React.Component<any, any> {
 
         ref.editor.on("beforeChange", function (instance, change) {
             var newtext = change.text.join("").replace(/\n/g, ""); // remove ALL \n !
-            change.update(change.from, change.to, [newtext] as any);
+            change.update?.(change.from, change.to, [newtext] as any);
             return true;
         });
 
